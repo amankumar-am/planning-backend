@@ -8,7 +8,22 @@ export class FinancialYearController {
     async getAllFinancialYears(req: Request, res: Response): Promise<void> {
         try {
             const financialYears = await this.financialYearService.getAllFinancialYears();
-            res.status(200).json(financialYears);
+
+            const schema = [
+                { field: 'id', label: 'ID', type: 'number' },
+                { field: 'name', label: 'Name', type: 'string' },
+                { field: 'duration', label: 'Duration', type: 'string' },
+                { field: 'startDate', label: 'Start Date', type: 'date' },
+                { field: 'endDate', label: 'End Date', type: 'date' },
+                { field: 'isActive', label: 'Active', type: 'boolean' },
+                { field: 'isCurrent', label: 'Current', type: 'boolean' },
+                { field: 'createdBy', label: 'Created By', type: 'string' },
+                { field: 'createdAt', label: 'Created At', type: 'datetime' },
+                { field: 'modifiedBy', label: 'Modified By', type: 'string' },
+                { field: 'modifiedAt', label: 'Modified At', type: 'datetime' }
+            ];
+
+            res.status(200).json({ schema, data: financialYears });
         } catch (error) {
             res.status(500).json({ message: 'Error fetching financial years' });
         }
