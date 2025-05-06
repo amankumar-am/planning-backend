@@ -3,15 +3,12 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import config from './env';
-
+import { corsOptions } from './cors';
 export const createServer = () => {
     const app = express();
 
     // Middlewares
-    app.use(cors({
-        origin: config.NODE_ENV === 'production' ? 'your-angular-app-domain' : '*'
-    }));
+    app.use(cors(corsOptions));
     app.use(helmet());
     app.use(morgan('dev'));
     app.use(express.json());

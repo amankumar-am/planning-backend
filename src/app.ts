@@ -12,7 +12,7 @@ AppDataSource.initialize()
         const app = createServer();
         // Routes
         app.use('/api/fy', fyRoutes);
-        // app.use('/api/bg', bgRoutes);
+        app.use('/api/bg', bgRoutes);
         // Start server
         app.listen(config.PORT, () => {
             console.log(`Server running on port ${config.PORT}`);

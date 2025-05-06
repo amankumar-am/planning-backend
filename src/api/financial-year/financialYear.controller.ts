@@ -22,7 +22,11 @@ export class FinancialYearController {
                 { field: 'modifiedAt', label: 'Modified At', type: 'datetime' }
             ];
 
-            res.status(200).json({ schema, data: financialYears });
+            res.status(200).json({
+                schema: schema,
+                data: financialYears,
+                defaultVisibleColumns: ['id', 'name', 'duration', 'startDate', 'endDate', 'isCurrent']
+            });
         } catch (error) {
             res.status(500).json({ message: 'Error fetching financial years' });
         }

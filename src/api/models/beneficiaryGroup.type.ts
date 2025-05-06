@@ -1,13 +1,12 @@
-// src/types/financial-year.ts
+// src/api/models/beneficiary-group.type.ts
 export interface CreateBeneficiaryGroupDto {
     name: string;
-    duration: string;
-    startDate: Date;
+    name_gu: string;
+    description: string;
     endDate: Date;
-    isActive?: boolean;
-    isCurrent?: boolean;
     createdBy?: string;
     modifiedBy?: string;
+    isActive?: boolean;
 }
 
 export interface UpdateBeneficiaryGroupDto extends Partial<CreateBeneficiaryGroupDto> {

@@ -12,20 +12,24 @@ export class BeneficiaryGroupController {
             const schema = [
                 { field: 'id', label: 'ID', type: 'number' },
                 { field: 'name', label: 'Name', type: 'string' },
-                { field: 'duration', label: 'Duration', type: 'string' },
-                { field: 'startDate', label: 'Start Date', type: 'date' },
-                { field: 'endDate', label: 'End Date', type: 'date' },
+                { field: 'name_gu', label: 'Name Gu', type: 'string' },
+                { field: 'description', label: 'Description', type: 'string' },
                 { field: 'isActive', label: 'Active', type: 'boolean' },
-                { field: 'isCurrent', label: 'Current', type: 'boolean' },
                 { field: 'createdBy', label: 'Created By', type: 'string' },
                 { field: 'createdAt', label: 'Created At', type: 'datetime' },
                 { field: 'modifiedBy', label: 'Modified By', type: 'string' },
                 { field: 'modifiedAt', label: 'Modified At', type: 'datetime' }
             ];
 
-            res.status(200).json({ schema, data: beneficiaryGroups });
+            const defaultVisibleColumns = ['id', 'name', 'name_gu', 'description'];
+
+            res.status(200).json({
+                schema: schema,
+                data: beneficiaryGroups,
+                defaultVisibleColumns: defaultVisibleColumns
+            });
         } catch (error) {
-            res.status(500).json({ message: 'Error fetching financial years' });
+            res.status(500).json({ message: 'Error fetching beneficiary groups' });
         }
     }
 
@@ -36,23 +40,10 @@ export class BeneficiaryGroupController {
             if (beneficiaryGroup) {
                 res.status(200).json(beneficiaryGroup);
             } else {
-                res.status(404).json({ message: 'Financial year not found' });
+                res.status(404).json({ message: 'Beneficiary group not found' });
             }
         } catch (error) {
-            res.status(500).json({ message: 'Error fetching financial year' });
-        }
-    }
-
-    async getCurrentBeneficiaryGroup(req: Request, res: Response): Promise<void> {
-        try {
-            const beneficiaryGroup = await this.beneficiaryGroupService.getCurrentBeneficiaryGroup();
-            if (beneficiaryGroup) {
-                res.status(200).json(beneficiaryGroup);
-            } else {
-                res.status(404).json({ message: 'No current financial year set' });
-            }
-        } catch (error) {
-            res.status(500).json({ message: 'Error fetching current financial year' });
+            res.status(500).json({ message: 'Error fetching beneficiary group' });
         }
     }
 
@@ -61,7 +52,7 @@ export class BeneficiaryGroupController {
             const newBeneficiaryGroup = await this.beneficiaryGroupService.createBeneficiaryGroup(req.body);
             res.status(201).json(newBeneficiaryGroup);
         } catch (error: any) {
-            res.status(400).json({ message: error.message || 'Error creating financial year' });
+            res.status(400).json({ message: error.message || 'Error creating beneficiary group' });
         }
     }
 
@@ -72,10 +63,10 @@ export class BeneficiaryGroupController {
             if (updatedBeneficiaryGroup) {
                 res.status(200).json(updatedBeneficiaryGroup);
             } else {
-                res.status(404).json({ message: 'Financial year not found' });
+                res.status(404).json({ message: 'Beneficiary group not found' });
             }
         } catch (error: any) {
-            res.status(400).json({ message: error.message || 'Error updating financial year' });
+            res.status(400).json({ message: error.message || 'Error updating beneficiary group' });
         }
     }
 
@@ -85,17 +76,7 @@ export class BeneficiaryGroupController {
             await this.beneficiaryGroupService.deleteBeneficiaryGroup(id);
             res.status(204).end();
         } catch (error) {
-            res.status(400).json({ message: 'Error deleting financial year' });
-        }
-    }
-
-    async setCurrentBeneficiaryGroup(req: Request, res: Response): Promise<void> {
-        try {
-            const id = parseInt(req.params.id);
-            await this.beneficiaryGroupService.setCurrentBeneficiaryGroup(id);
-            res.status(200).json({ message: 'Financial year set as current successfully' });
-        } catch (error: any) {
-            res.status(400).json({ message: error.message || 'Error setting current financial year' });
+            res.status(400).json({ message: 'Error deleting beneficiary group' });
         }
     }
 }

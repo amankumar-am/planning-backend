@@ -3,26 +3,20 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('Master_BeneficiaryGroup')
 export class BeneficiaryGroup {
-    @PrimaryGeneratedColumn({ name: 'MFY_Id' })
+    @PrimaryGeneratedColumn({ name: 'MBG_Id' })
     id!: number;
 
-    @Column({ name: 'MFY_Name', length: 20 })
+    @Column({ name: 'MBG_Name_En', length: 50 })
     name!: string;
 
-    @Column({ name: 'MFY_Duration', length: 20 })
-    duration!: string;
+    @Column({ name: 'MBG_Name_Gu', length: 50 })
+    name_gu!: string;
 
-    @Column({ name: 'MFY_StartDate', type: 'date' })
-    startDate!: Date;
+    @Column({ name: 'MBG_Description', length: 100 })
+    description!: string;
 
-    @Column({ name: 'MFY_EndDate', type: 'date' })
-    endDate!: Date;
-
-    @Column({ name: 'MFY_IsActive', default: true })
+    @Column({ name: 'IsActive', default: true })
     isActive!: boolean;
-
-    @Column({ name: 'MFY_IsCurrent', default: false })
-    isCurrent!: boolean;
 
     @Column({ name: 'CreatedBy', default: 'system', length: 100 })
     createdBy!: string;

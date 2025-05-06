@@ -18,11 +18,11 @@ export class FinancialYear {
     @Column({ name: 'MFY_EndDate', type: 'date' })
     endDate!: Date;
 
-    @Column({ name: 'MFY_IsActive', default: true })
-    isActive!: boolean;
-
     @Column({ name: 'MFY_IsCurrent', default: false })
     isCurrent!: boolean;
+
+    @Column({ name: 'IsActive', default: true })
+    isActive!: boolean;
 
     @Column({ name: 'CreatedBy', default: 'system', length: 100 })
     createdBy!: string;
