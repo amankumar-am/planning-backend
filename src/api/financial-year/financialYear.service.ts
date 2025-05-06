@@ -1,7 +1,7 @@
-// src/services/financial-year.service.ts
-import { FinancialYearRepository } from '../repositories/financialYear.repository';
-import { FinancialYear } from '../models/financialYear.entity';
-import { CreateFinancialYearDto, UpdateFinancialYearDto } from '../types/financialYear.type';
+// src/api/financial-year/financial-year.service.ts
+import { FinancialYearRepository } from './financialYear.repository';
+import { FinancialYear } from './financialYear.entity';
+import { CreateFinancialYearDto, UpdateFinancialYearDto } from '../models/financialYear.type';
 
 export class FinancialYearService {
     constructor(private financialYearRepository: FinancialYearRepository) { }

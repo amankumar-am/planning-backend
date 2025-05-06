@@ -1,3 +1,4 @@
+// config/server.ts
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
@@ -15,7 +16,7 @@ export const createServer = () => {
     app.use(morgan('dev'));
     app.use(express.json());
     app.use(express.urlencoded({ extended: true }));
-
+    console.log('Registered routes:');
     // Health check
     app.get('/health', (req, res) => {
         res.status(200).json({ status: 'OK' });

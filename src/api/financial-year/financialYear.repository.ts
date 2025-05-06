@@ -1,8 +1,8 @@
-// src/repositories/financial-year.repository.ts
-import { AppDataSource } from '../config/database';
-import { FinancialYear } from '../models/financialYear.entity';
+// src/api/financial-year/financial-year.repository.ts
 import { Repository } from 'typeorm';
-import { CreateFinancialYearDto, UpdateFinancialYearDto } from '../types/financialYear.type';
+import { AppDataSource } from '../../config/database';
+import { FinancialYear } from './financialYear.entity';
+import { CreateFinancialYearDto, UpdateFinancialYearDto } from '../models/financialYear.type';
 
 export class FinancialYearRepository {
     private repository: Repository<FinancialYear>;

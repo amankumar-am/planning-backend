@@ -1,4 +1,4 @@
-// src/models/financial-year.entity.ts
+// src/api/financial-year/financial-year.entity.ts
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('Master_FinancialYear')

@@ -1,5 +1,5 @@
 // src/types/financial-year.ts
-export interface CreateFinancialYearDto {
+export interface CreateBeneficiaryGroupDto {
     name: string;
     duration: string;
     startDate: Date;
@@ -10,7 +10,7 @@ export interface CreateFinancialYearDto {
     modifiedBy?: string;
 }
 
-export interface UpdateFinancialYearDto extends Partial<CreateFinancialYearDto> {
+export interface UpdateBeneficiaryGroupDto extends Partial<CreateBeneficiaryGroupDto> {
     modifiedBy: string;
     modifiedAt: Date;
 }

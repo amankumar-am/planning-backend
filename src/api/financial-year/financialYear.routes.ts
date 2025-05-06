@@ -1,11 +1,10 @@
-// src/routes/financial-year.routes.ts
+// src/api/financial-year/financial-year.routes.ts
 import { Router } from 'express';
-import { FinancialYearController } from '../controllers/financialYear.controller';
-import { FinancialYearService } from '../services/financialYear.service';
-import { FinancialYearRepository } from '../repositories/financialYear.repository';
+import { FinancialYearController } from './financialYear.controller';
+import { FinancialYearService } from './financialYear.service';
+import { FinancialYearRepository } from './financialYear.repository';
 
 const router = Router();
-
 // Dependency injection
 const financialYearRepository = new FinancialYearRepository();
 const financialYearService = new FinancialYearService(financialYearRepository);

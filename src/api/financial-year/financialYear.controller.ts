@@ -1,6 +1,6 @@
-// src/controllers/financial-year.controller.ts
+// src/api/financial-year/financial-year.controller.ts
 import { Request, Response } from 'express';
-import { FinancialYearService } from '../services/financialYear.service';
+import { FinancialYearService } from './financialYear.service';
 
 export class FinancialYearController {
     constructor(private financialYearService: FinancialYearService) { }
@@ -8,7 +8,6 @@ export class FinancialYearController {
     async getAllFinancialYears(req: Request, res: Response): Promise<void> {
         try {
             const financialYears = await this.financialYearService.getAllFinancialYears();
-
             const schema = [
                 { field: 'id', label: 'ID', type: 'number' },
                 { field: 'name', label: 'Name', type: 'string' },

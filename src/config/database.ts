@@ -1,5 +1,7 @@
+// config/database.ts
 import { DataSource } from 'typeorm';
 import config from '../config/env';
+
 
 export const AppDataSource = new DataSource({
     type: 'postgres',
@@ -10,7 +12,7 @@ export const AppDataSource = new DataSource({
     database: config.DB_NAME,
     synchronize: true,
     logging: true,
-    entities: ['src/models/**/*.ts'],
+    entities: ['src/api/**/*.entity.ts'],
     migrations: ['src/migrations/**/*.ts'],
     subscribers: [],
 });
