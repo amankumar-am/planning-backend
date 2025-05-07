@@ -1,4 +1,4 @@
-// src/repositories/financial-year.repository.ts
+// src/api/beneficiary-group/beneficiaryGroup.repository.ts
 import { Repository } from 'typeorm';
 import { AppDataSource } from '../../config/database';
 import { BeneficiaryGroup } from './beneficiaryGroup.entity';

@@ -1,4 +1,4 @@
-// src/services/financial-year.service.ts
+// src/api/beneficiary-group/beneficiaryGroup.service.ts
 import { BeneficiaryGroupRepository } from './beneficiaryGroup.repository';
 import { BeneficiaryGroup } from './beneficiaryGroup.entity';
 import { CreateBeneficiaryGroupDto, UpdateBeneficiaryGroupDto } from '../models/beneficiaryGroup.type';

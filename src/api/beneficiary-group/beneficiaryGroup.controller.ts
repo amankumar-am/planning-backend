@@ -1,4 +1,4 @@
-// src/controllers/financial-year.controller.ts
+// src/api/beneficiary-group/beneficiaryGroup.controller.ts
 import { Request, Response } from 'express';
 import { BeneficiaryGroupService } from './beneficiaryGroup.service';
 
@@ -21,7 +21,7 @@ export class BeneficiaryGroupController {
                 { field: 'modifiedAt', label: 'Modified At', type: 'datetime' }
             ];
 
-            const defaultVisibleColumns = ['id', 'name', 'name_gu', 'description'];
+            const defaultVisibleColumns = ['name'];
 
             res.status(200).json({
                 schema: schema,

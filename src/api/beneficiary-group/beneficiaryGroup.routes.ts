@@ -1,4 +1,4 @@
-// src/routes/financial-year.routes.ts
+// src/api/beneficiary-group/beneficiaryGroup.routes.ts
 import { Router } from 'express';
 import { BeneficiaryGroupController } from './beneficiaryGroup.controller';
 import { BeneficiaryGroupService } from './beneficiaryGroup.service';

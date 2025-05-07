@@ -1,4 +1,4 @@
-// src/models/financial-year.entity.ts
+// src/api/beneficiary-group/beneficiaryGroup.entity.ts
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 
 @Entity('Master_BeneficiaryGroup')
