@@ -4,7 +4,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from '../../core/base.entity';
 
 @Entity('Master_Fund')
-export class Fund extends BaseEntity {
+export class FundEntity extends BaseEntity {
     @PrimaryGeneratedColumn({ name: 'MF_Id' })
     id!: number;
 

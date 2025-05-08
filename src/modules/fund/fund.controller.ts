@@ -2,11 +2,11 @@
 
 import { BaseController } from '../../core/base.controller';
 import { FundService } from './fund.service';
-import { Fund } from './fund.entity';
+import { FundEntity } from './fund.entity';
 import { fundSchema } from '../../api/models/schemas/fund.schema';
 
 
-export class FundController extends BaseController<Fund> {
+export class FundController extends BaseController<FundEntity> {
     constructor(fundService: FundService) {
         super(fundService, fundSchema);
     }

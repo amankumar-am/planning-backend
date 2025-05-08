@@ -2,15 +2,15 @@
 
 import { BaseService } from '../../core/base.service';
 import { FundRepository } from './fund.repository';
-import { Fund } from './fund.entity';
+import { FundEntity } from './fund.entity';
 import { CreateFundDto, UpdateFundDto } from './fund.type';
 
-export class FundService extends BaseService<Fund> {
+export class FundService extends BaseService<FundEntity> {
     constructor(private readonly fundRepository: FundRepository) {
         super(fundRepository);
     }
 
-    async create(dto: CreateFundDto): Promise<Fund> {
+    async create(dto: CreateFundDto): Promise<FundEntity> {
         return this.fundRepository.create({
             ...dto,
             isActive: dto.isActive ?? true,
@@ -21,7 +21,7 @@ export class FundService extends BaseService<Fund> {
         });
     }
 
-    async update(id: number, dto: UpdateFundDto): Promise<Fund> {
+    async update(id: number, dto: UpdateFundDto): Promise<FundEntity> {
         const fund = await this.fundRepository.findOneOrFail({ where: { id } });
         Object.assign(fund, {
             ...dto,
@@ -31,13 +31,13 @@ export class FundService extends BaseService<Fund> {
         return this.fundRepository.save(fund);
     }
 
-    async findAll(): Promise<Fund[]> {
+    async findAll(): Promise<FundEntity[]> {
         const funds = await this.fundRepository.findAll();
         console.log('Funds:', funds); // Debug log
         return funds;
     }
 
-    async findOne(id: number): Promise<Fund> {
+    async findOne(id: number): Promise<FundEntity> {
         const fund = await this.fundRepository.findById(id);
         if (!fund) {
             throw new Error(`Fund with id ${id} not found`);

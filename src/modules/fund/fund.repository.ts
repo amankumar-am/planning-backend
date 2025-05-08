@@ -1,10 +1,10 @@
 // src/modules/fund/fund.repository.ts
 
-import { Fund } from './fund.entity';
+import { FundEntity } from './fund.entity';
 import { BaseRepository } from '../../core/base.repository';
 
-export class FundRepository extends BaseRepository<Fund> {
+export class FundRepository extends BaseRepository<FundEntity> {
     constructor() {
-        super(Fund);
+        super(FundEntity);
     }
 }
