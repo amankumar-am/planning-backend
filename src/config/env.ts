@@ -1,4 +1,5 @@
-// config/env.ts
+// src/config/env.ts
+
 import dotenv from 'dotenv';
 
 dotenv.config();

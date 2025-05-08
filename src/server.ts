@@ -1,9 +1,9 @@
-// config/server.ts
+// src/server.ts
 import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import morgan from 'morgan';
-import { corsOptions } from './cors';
+import { corsOptions } from './config/cors';
 export const createServer = () => {
     const app = express();
 
