@@ -11,8 +11,8 @@ export const SubSectorSchema: SchemaConfig = {
         { field: 'nameEn', label: 'Name En', type: 'string' },
         { field: 'nameGu', label: 'Name Gu', type: 'number' },
         { field: 'sector', label: 'Sector', type: 'string' },
-        { field: 'SubsectorNumber', label: 'Subsector Number', type: 'number' },
+        { field: 'subsectorNumber', label: 'Subsector Number', type: 'number' },
         ...commonSchemaFields
     ],
-    defaultVisibleColumns: ['scheme', 'sectorNumber', 'nameEn', 'nameGu'],
+    defaultVisibleColumns: ['nameGu', 'sector',],
 };

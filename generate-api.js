@@ -6,8 +6,8 @@ const path = require('path');
 // Get API name from command-line argument
 const apiName = process.argv[2];
 if (!apiName) {
-    console.error('Please provide an API name (e.g., node generate-api.js sector)');
-    process.exit(1);
+  console.error('Please provide an API name (e.g., node generate-api.js sector)');
+  process.exit(1);
 }
 
 // Convert API name to camelCase and PascalCase
@@ -18,8 +18,8 @@ const snakeCase = apiName.toLowerCase().replace(/ /g, '_');
 // Define module directory
 const moduleDir = path.join(__dirname, 'src', 'modules', snakeCase);
 if (fs.existsSync(moduleDir)) {
-    console.error(`Directory ${moduleDir} already exists. Choose a different API name.`);
-    process.exit(1);
+  console.error(`Directory ${moduleDir} already exists. Choose a different API name.`);
+  process.exit(1);
 }
 
 // Create module directory
@@ -27,8 +27,8 @@ fs.mkdirSync(moduleDir, { recursive: true });
 
 // File templates
 const templates = {
-    // Entity
-    [`${snakeCase}.entity.ts`]: `
+  // Entity
+  [`${snakeCase}.entity.ts`]: `
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from '../../core/base.entity';
 
@@ -51,8 +51,8 @@ export class ${pascalCase}Entity extends BaseEntity {
 }
 `,
 
-    // Type (DTOs)
-    [`${snakeCase}.type.ts`]: `
+  // Type (DTOs)
+  [`${snakeCase}.type.ts`]: `
 import { IsString, IsOptional, IsBoolean, IsDate } from 'class-validator';
 import { BaseDtoFields } from '../../core/base.type';
 
@@ -110,8 +110,8 @@ export class Update${pascalCase}Dto implements Partial<Create${pascalCase}Dto> {
 }
 `,
 
-    // Repository
-    [`${snakeCase}.repository.ts`]: `
+  // Repository
+  [`${snakeCase}.repository.ts`]: `
 import { ${pascalCase}Entity } from './${snakeCase}.entity';
 import { BaseRepository } from '../../core/base.repository';
 
@@ -122,8 +122,8 @@ export class ${pascalCase}Repository extends BaseRepository<${pascalCase}Entity>
 }
 `,
 
-    // Service
-    [`${snakeCase}.service.ts`]: `
+  // Service
+  [`${snakeCase}.service.ts`]: `
 import { BaseService } from '../../core/base.service';
 import { ${pascalCase}Entity } from './${snakeCase}.entity';
 import { ${pascalCase}Repository } from './${snakeCase}.repository';
@@ -171,74 +171,36 @@ export class ${pascalCase}Service extends BaseService<${pascalCase}Entity> {
 }
 `,
 
-    // Controller
-    [`${snakeCase}.controller.ts`]: `
-import { Controller, Get, Post, Put, Delete, Body, Param, ParseIntPipe } from '@nestjs/common';
+  // Controller
+  [`${snakeCase}.controller.ts`]: `
 import { ${pascalCase}Service } from './${snakeCase}.service';
-import { Create${pascalCase}Dto, Update${pascalCase}Dto } from './${snakeCase}.type';
 import { ${pascalCase}Entity } from './${snakeCase}.entity';
 import { BaseController } from '../../core/base.controller';
-import { ${pascalCase}Schema } from './${snakeCase}.schema';
+import { ${pascalCase}Schema } from '../../api/models/schemas/${snakeCase}.schema';
 
-@Controller('${snakeCase}s')
 export class ${pascalCase}Controller extends BaseController<${pascalCase}Entity> {
   constructor(private readonly ${camelCase}Service: ${pascalCase}Service) {
     super(${camelCase}Service, ${pascalCase}Schema);
   }
-
-  @Get()
-  async findAll(): Promise<${pascalCase}Entity[]> {
-    return this.${camelCase}Service.findAll();
-  }
-
-  @Get(':id')
-  async findOne(@Param('id', ParseIntPipe) id: number): Promise<${pascalCase}Entity> {
-    return this.${camelCase}Service.findOne(id);
-  }
-
-  @Post()
-  async create(@Body() createDto: Create${pascalCase}Dto): Promise<${pascalCase}Entity> {
-    return this.${camelCase}Service.create(createDto);
-  }
-
-  @Put(':id')
-  async update(
-    @Param('id', ParseIntPipe) id: number,
-    @Body() updateDto: Update${pascalCase}Dto,
-  ): Promise<${pascalCase}Entity> {
-    return this.${camelCase}Service.update(id, updateDto);
-  }
-
-  @Delete(':id')
-  async delete(@Param('id', ParseIntPipe) id: number): Promise<void> {
-    return this.${camelCase}Service.delete(id);
-  }
 }
 `,
 
-    // Route
-    [`${snakeCase}.route.ts`]: `
-import { Router } from 'express';
+  // Route
+  [`${snakeCase}.route.ts`]: `
+import { createModuleRouter } from '../../core/module.factory';
 import { ${pascalCase}Controller } from './${snakeCase}.controller';
 import { ${pascalCase}Service } from './${snakeCase}.service';
 import { ${pascalCase}Repository } from './${snakeCase}.repository';
 
-const router = Router();
 const repository = new ${pascalCase}Repository();
 const service = new ${pascalCase}Service(repository);
 const controller = new ${pascalCase}Controller(service);
 
-router.get('/', controller.findAll.bind(controller));
-router.get('/:id', controller.findOne.bind(controller));
-router.post('/', controller.create.bind(controller));
-router.put('/:id', controller.update.bind(controller));
-router.delete('/:id', controller.delete.bind(controller));
-
-export const ${pascalCase}Router = router;
+export default createModuleRouter(controller, '/${snakeCase}s');
 `,
 
-    // Schema
-    [`${snakeCase}.schema.ts`]: `
+  // Schema
+  [`${snakeCase}.schema.ts`]: `
 import { SchemaConfig, commonSchemaFields } from '../../api/models/base.dto';
 
 export const ${camelCase}Schema: SchemaConfig = {
@@ -259,9 +221,9 @@ export const ${camelCase}Schema: SchemaConfig = {
 
 // Write files
 Object.entries(templates).forEach(([fileName, content]) => {
-    const filePath = path.join(moduleDir, fileName);
-    fs.writeFileSync(filePath, content.trim(), 'utf8');
-    console.log(`Created ${filePath}`);
+  const filePath = path.join(moduleDir, fileName);
+  fs.writeFileSync(filePath, content.trim(), 'utf8');
+  console.log(`Created ${filePath}`);
 });
 
 console.log(`Successfully generated ${pascalCase} API in ${moduleDir}`);

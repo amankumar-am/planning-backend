@@ -1,18 +1,24 @@
 // src/routes.ts
 
 import { Router } from 'express';
-import fundRoutes from './modules/fund/fund.routes';
-import fyRoutes from './modules/financial-year/financialYear.routes';
-import bgRoutes from './modules/beneficiary-group/beneficiaryGroup.routes';
-import sectorRoutes from 'modules/sector/sector.routes';
-import subsectorRoutes from 'modules/subsector/subSector.routes';
+
+import districtRoute from './modules/district/district.route';
+import fyRoute from './modules/financial-year/financialYear.route';
+import bgRoute from './modules/beneficiary-group/beneficiaryGroup.route';
+import fundRoute from './modules/fund/fund.route';
+import sectorRoute from './modules/sector/sector.route';
+import subsectorRoute from './modules/subsector/subsector.route';
+import talukaRoute from './modules/taluka/taluka.route';
+
 
 const apiRouter = Router();
 
-apiRouter.use('/fy', fyRoutes);
-apiRouter.use('/bg', bgRoutes);
-apiRouter.use('/funds', fundRoutes);
-apiRouter.use('/sectors', sectorRoutes);
-apiRouter.use('/subSectors', subsectorRoutes);
+apiRouter.use('/fy', fyRoute);
+apiRouter.use('/bg', bgRoute);
+apiRouter.use('/funds', fundRoute);
+apiRouter.use('/sectors', sectorRoute);
+apiRouter.use('/subSectors', subsectorRoute);
+apiRouter.use('/districts', districtRoute);
+apiRouter.use('/talukas', talukaRoute);
 
 export default apiRouter;

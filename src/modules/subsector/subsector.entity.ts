@@ -1,4 +1,4 @@
-// src/modules/subSector/subsector.entity.ts
+// src/modules/subsector/subsector.entity.ts
 
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from '../../core/base.entity';
@@ -7,6 +7,9 @@ import { BaseEntity } from '../../core/base.entity';
 export class SubSectorEntity extends BaseEntity {
   @PrimaryGeneratedColumn({ name: 'MSS_Id' })
   id!: number;
+
+  @Column({ name: 'MSS_Name_En', length: 100 })
+  name!: string;
 
   @Column({ name: 'MSS_Name_En', length: 100 })
   nameEn!: string;

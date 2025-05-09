@@ -1,9 +1,6 @@
-// src/modules/beneficiary-group/beneficiaryGroup.routes.ts
-
-
+// src/modules/beneficiary-group/beneficiaryGroup.route.ts
 
 import { BaseRepository } from '../../core/base.repository';
-
 import { createModuleRouter } from '../../core/module.factory';
 import { BeneficiaryGroupController } from './beneficiaryGroup.controller';
 import { BeneficiaryGroup } from './beneficiaryGroup.entity';

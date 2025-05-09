@@ -10,10 +10,6 @@
     "forceConsistentCasingInFileNames": true,
     "experimentalDecorators": true,
     "moduleResolution": "node",
-    "baseUrl": "src",
-    "paths": {
-      "*": ["*"]
-    },
     "allowSyntheticDefaultImports": true,
     "emitDecoratorMetadata": true,
     "types": ["node", "express"]

@@ -14,5 +14,5 @@ export const SectorSchema: SchemaConfig = {
         { field: 'nameGu', label: 'Name Gu', type: 'string' },
         ...commonSchemaFields
     ],
-    defaultVisibleColumns: ['scheme', 'sectorNumber', 'nameEn', 'nameGu'],
+    defaultVisibleColumns: ['sectorNumber', 'nameEn', 'nameGu', 'scheme',],
 };

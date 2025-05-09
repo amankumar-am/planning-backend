@@ -15,6 +15,9 @@ export class SectorEntity extends BaseEntity {
     sectorNumber!: number;
 
     @Column({ name: 'MS_Name_En', length: 100, nullable: true })
+    name?: string;
+
+    @Column({ name: 'MS_Name_En', length: 100, nullable: true })
     nameEn?: string;
 
     @Column({ name: 'MS_Name_Gu', length: 100, nullable: true })
