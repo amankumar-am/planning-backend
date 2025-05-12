@@ -17,6 +17,9 @@ export class DistrictEntity extends BaseEntity {
   @Column({ name: 'MD_Name_Gu', length: 500 })
   nameGu!: string;
 
-  @Column({ name: 'MD_State', length: 500 })
-  state!: string;
+  @Column({ name: 'MD_State' })
+  state!: number;
+
+  @Column({ name: 'MD_Name_En', length: 100 })
+  name!: string;
 }

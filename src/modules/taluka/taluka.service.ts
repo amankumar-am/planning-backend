@@ -44,4 +44,10 @@ export class TalukaService extends BaseService<TalukaEntity> {
     }
     return taluka;
   }
+
+  async getTalukasByDistrict(districtId: number): Promise<Taluka[]> {
+    return await this.talukaRepository.find({
+      where: { MT_District: districtId },
+    });
+  }
 }

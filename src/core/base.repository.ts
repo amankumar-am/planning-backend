@@ -39,4 +39,8 @@ export class BaseRepository<T extends ObjectLiteral> {
     async delete(id: number): Promise<void> {
         await this.repository.delete(id);
     }
+
+    async find(options?: { where?: Partial<T> }): Promise<T[]> {
+        return await this.repository.find(options);
+    }
 }

@@ -1,4 +1,4 @@
-// src/modules/subSector/subSector.type.ts
+// src/modules/subsector/subsector.type.ts
 
 import { IsString, IsOptional, IsBoolean, IsDate, IsNumber } from 'class-validator';
 import { BaseDtoFields } from '../../core/base.type';
@@ -12,11 +12,11 @@ export class CreateSubSectorDto extends BaseDtoFields {
   nameGu?: string;
 
   @IsString()
-  sector?: string;
+  sector?: number;
 
   @IsNumber()
   @IsOptional()
-  SubsectorNumber?: number;
+  subsectorNumber?: number;
 }
 
 export class UpdateSubSectorDto implements Partial<CreateSubSectorDto> {
@@ -28,11 +28,12 @@ export class UpdateSubSectorDto implements Partial<CreateSubSectorDto> {
   nameGu?: string;
 
   @IsString()
-  sector?: string;
+  sector?: number;
 
   @IsNumber()
   @IsOptional()
-  SubsectorNumber?: number;
+  subsectorNumber?: number;
+
   @IsBoolean()
   @IsOptional()
   isActive?: boolean;

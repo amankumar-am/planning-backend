@@ -10,9 +10,9 @@ export const SubSectorSchema: SchemaConfig = {
         { field: 'id', label: 'ID', type: 'number', isPrimary: true },
         { field: 'nameEn', label: 'Name En', type: 'string' },
         { field: 'nameGu', label: 'Name Gu', type: 'number' },
-        { field: 'sector', label: 'Sector', type: 'string' },
+        { field: 'sector', label: 'Sector', type: 'number' },
         { field: 'subsectorNumber', label: 'Subsector Number', type: 'number' },
         ...commonSchemaFields
     ],
-    defaultVisibleColumns: ['nameGu', 'sector',],
+    defaultVisibleColumns: ['subsectorNumber', 'nameEn', 'nameGu', 'sector',],
 };

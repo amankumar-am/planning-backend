@@ -28,6 +28,8 @@
   "devDependencies": {
     "@types/cors": "^2.8.17",
     "@types/express": "^5.0.1",
+    "@types/http-status-codes": "^1.2.0",
+    "@types/joi": "^17.2.2",
     "@types/morgan": "^1.9.9",
     "@types/node": "^22.15.16",
     "eslint": "^9.26.0",

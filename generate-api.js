@@ -201,7 +201,7 @@ export default createModuleRouter(controller, '/${snakeCase}s');
 
   // Schema
   [`${snakeCase}.schema.ts`]: `
-import { SchemaConfig, commonSchemaFields } from '../../api/models/base.dto';
+import { SchemaConfig, commonSchemaFields } from '../base.dto';
 
 export const ${camelCase}Schema: SchemaConfig = {
   entity: '${pascalCase}',

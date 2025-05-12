@@ -13,7 +13,7 @@ export class CreateDistrictDto extends BaseDtoFields {
   nameGu!: string;
 
   @IsString()
-  state!: string;
+  state!: number;
 }
 
 export class UpdateDistrictDto implements Partial<CreateDistrictDto> {
@@ -27,7 +27,7 @@ export class UpdateDistrictDto implements Partial<CreateDistrictDto> {
   nameGu!: string;
 
   @IsString()
-  state!: string;
+  state!: number;
 
   @IsBoolean()
   @IsOptional()

@@ -11,8 +11,8 @@ export const districtSchema: SchemaConfig = {
     { field: 'eDharaCode', label: 'e-Dhara Code', type: 'number' },
     { field: 'nameEn', label: 'Name (English)', type: 'string' },
     { field: 'nameGu', label: 'Name (Gujarati)', type: 'string' },
-    { field: 'state', label: 'State', type: 'string' },
-    ...commonSchemaFields, // Include common fields
+    { field: 'state', label: 'State', type: 'number' },
+    ...commonSchemaFields,
   ],
-  defaultVisibleColumns: ['edharaCode', 'nameEn', 'nameGu', 'state'],
+  defaultVisibleColumns: ['eDharaCode', 'nameEn', 'nameGu', 'state'],
 };

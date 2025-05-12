@@ -13,10 +13,10 @@ export class CreateTalukaDto extends BaseDtoFields {
   nameGu!: string;
 
   @IsString()
-  district!: string;
+  district!: number;
 
   @IsString()
-  prant!: string;
+  prant!: number;
 }
 
 export class UpdateTalukaDto implements Partial<CreateTalukaDto> {
@@ -30,10 +30,10 @@ export class UpdateTalukaDto implements Partial<CreateTalukaDto> {
   nameGu!: string;
 
   @IsString()
-  district!: string;
+  district!: number;
 
   @IsString()
-  prant!: string;
+  prant!: number;
 
   @IsBoolean()
   @IsOptional()
