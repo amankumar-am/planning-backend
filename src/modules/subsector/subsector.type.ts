@@ -2,6 +2,7 @@
 
 import { IsString, IsOptional, IsBoolean, IsDate, IsNumber } from 'class-validator';
 import { BaseDtoFields } from '../../core/base.type';
+import { SectorEntity } from '../sector/sector.entity';
 
 export class CreateSubSectorDto extends BaseDtoFields {
   @IsString()
@@ -11,8 +12,8 @@ export class CreateSubSectorDto extends BaseDtoFields {
   @IsOptional()
   nameGu?: string;
 
-  @IsString()
-  sector?: number;
+  @IsNumber()
+  sector?: SectorEntity;
 
   @IsNumber()
   @IsOptional()
@@ -28,7 +29,7 @@ export class UpdateSubSectorDto implements Partial<CreateSubSectorDto> {
   nameGu?: string;
 
   @IsString()
-  sector?: number;
+  sector?: SectorEntity;
 
   @IsNumber()
   @IsOptional()

@@ -2,7 +2,6 @@
 
 import { TalukaEntity } from './taluka.entity';
 import { BaseRepository } from '../../core/base.repository';
-import { Equal } from 'typeorm';
 export class TalukaRepository extends BaseRepository<TalukaEntity> {
   constructor() {
     super(TalukaEntity);

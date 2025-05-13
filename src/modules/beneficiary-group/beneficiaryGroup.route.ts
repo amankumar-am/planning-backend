@@ -4,10 +4,13 @@ import { BaseRepository } from '../../core/base.repository';
 import { createModuleRouter } from '../../core/module.factory';
 import { BeneficiaryGroupController } from './beneficiaryGroup.controller';
 import { BeneficiaryGroup } from './beneficiaryGroup.entity';
+import { BeneficiaryGroupRepository } from './beneficiaryGroup.repository';
 import { BeneficiaryGroupService } from './beneficiaryGroup.service';
 
-const bgRepository = new BaseRepository(BeneficiaryGroup);
-const bgService = new BeneficiaryGroupService(bgRepository);
-const bgController = new BeneficiaryGroupController(bgService);
+const repository = new BeneficiaryGroupRepository();
+const service = new BeneficiaryGroupService(repository);
+const controller = new BeneficiaryGroupController(service);
 
-export default createModuleRouter(bgController, '/bg');
+const router = createModuleRouter(controller, '');
+
+export default router;

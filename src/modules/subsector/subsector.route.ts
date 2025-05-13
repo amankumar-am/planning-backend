@@ -1,14 +1,15 @@
 // src/modules/subsector/subsector.route.ts
 
-import { BaseRepository } from '../../core/base.repository';
 import { createModuleRouter } from '../../core/module.factory';
 import { SubSectorController } from './subsector.controller';
-import { SubSectorEntity } from './subsector.entity';
+import { SubSectorRepository } from './subsector.repository';
 import { SubSectorService } from './subsector.service';
 
+const repository = new SubSectorRepository();
+const service = new SubSectorService(repository);
+const controller = new SubSectorController(service);
 
-const subSectorRepository = new BaseRepository(SubSectorEntity);
-const subSectorService = new SubSectorService(subSectorRepository);
-const subSectorController = new SubSectorController(subSectorService);
+const router = createModuleRouter(controller, '');
+router.get('/sector/:sectorId', controller.getBySectorId.bind(controller));
 
-export default createModuleRouter(subSectorController, '/subSectors');
+export default router;

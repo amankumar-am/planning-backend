@@ -1,13 +1,14 @@
-// src/modules/sector/sector.routes.ts
+// src/modules/sector/sector.route.ts
 
-import { BaseRepository } from '../../core/base.repository';
 import { createModuleRouter } from '../../core/module.factory';
 import { SectorController } from './sector.controller';
-import { SectorEntity } from './sector.entity';
+import { SectorRepository } from './sector.repository';
 import { SectorService } from './sector.service';
 
-const sectorRepository = new BaseRepository(SectorEntity);
-const sectorService = new SectorService(sectorRepository);
-const sectorController = new SectorController(sectorService);
+const repository = new SectorRepository();
+const service = new SectorService(repository);
+const controller = new SectorController(service);
 
-export default createModuleRouter(sectorController, '/sectors');
+const router = createModuleRouter(controller, '');
+
+export default router;

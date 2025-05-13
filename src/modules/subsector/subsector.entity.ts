@@ -1,7 +1,8 @@
 // src/modules/subsector/subsector.entity.ts
 
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { BaseEntity } from '../../core/base.entity';
+import { SectorEntity } from '../sector/sector.entity';
 
 @Entity('Master_SubSector')
 export class SubSectorEntity extends BaseEntity {
@@ -17,8 +18,9 @@ export class SubSectorEntity extends BaseEntity {
   @Column({ name: 'MSS_Name_Gu', length: 100, nullable: true })
   nameGu?: string;
 
-  @Column({ name: 'MSS_Sector' })
-  sector!: number;
+  @ManyToOne(() => SectorEntity, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @JoinColumn({ name: 'MSS_Sector', referencedColumnName: 'id' })
+  sector!: SectorEntity;
 
   @Column({ name: 'MSS_SubSectorNumber', nullable: true })
   subsectorNumber?: number;

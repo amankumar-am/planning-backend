@@ -1,3 +1,5 @@
+// src/modules/subsector/subsector.service.ts
+
 import { BaseService } from '../../core/base.service';
 import { SubSectorEntity } from './subsector.entity';
 import { SubSectorRepository } from './subsector.repository';
@@ -11,6 +13,7 @@ export class SubSectorService extends BaseService<SubSectorEntity> {
   async create(dto: CreateSubSectorDto): Promise<SubSectorEntity> {
     return this.subSectorRepository.create({
       ...dto,
+      sector: { id: dto.sector } as any,
       isActive: dto.isActive ?? true,
       createdBy: dto.createdBy ?? 'system',
       createdAt: dto.createdAt ?? new Date(),
@@ -41,5 +44,13 @@ export class SubSectorService extends BaseService<SubSectorEntity> {
       throw new Error(`SubSector with id ${id} not found`);
     }
     return subSector;
+  }
+
+  async findBySectorId(sectorId: number): Promise<SubSectorEntity[]> {
+    const talukas = await this.subSectorRepository.findBySectorId(sectorId);
+    if (!talukas || talukas.length === 0) {
+      throw new Error(`No talukas found for district ID ${sectorId}`);
+    }
+    return talukas;
   }
 }
