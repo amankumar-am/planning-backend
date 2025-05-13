@@ -12,4 +12,8 @@ const repository = new GpVillageRepository();
 const service = new GpVillageService(repository);
 const controller = new GpVillageController(service);
 
-export default createModuleRouter(controller, '/gpVillages');
+const router = createModuleRouter(controller, '');
+router.get('/district/:districtId', controller.getByDistrictId.bind(controller));
+router.get('/taluka/:talukaId', controller.getByTalukaId.bind(controller));
+
+export default router;

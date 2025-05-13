@@ -22,9 +22,8 @@ export class TalukaEntity extends BaseEntity {
   nameGu!: string;
 
   @ManyToOne(() => DistrictEntity, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
-  @JoinColumn({ name: 'MT_District', referencedColumnName: 'MD_Id' })
-  @Column({ name: 'MT_District' })
-  district!: number;
+  @JoinColumn({ name: 'MT_District', referencedColumnName: 'id' })
+  district!: DistrictEntity;
 
   @Column({ name: 'MT_Prant' })
   prant!: number;

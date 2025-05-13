@@ -1,7 +1,9 @@
 // src/modules/gpVillage/gpVillage.entity.ts
 
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { BaseEntity } from '../../core/base.entity';
+import { TalukaEntity } from '../taluka/taluka.entity';
+import { DistrictEntity } from '../district/district.entity';
 
 @Entity('Master_GPVillage')
 export class GpVillageEntity extends BaseEntity {
@@ -27,9 +29,11 @@ export class GpVillageEntity extends BaseEntity {
   @Column({ name: 'MGPV_Population(2011)', nullable: true })
   population2011?: number;
 
-  @Column({ name: 'MGPV_District', })
-  district?: number;
+  @ManyToOne(() => DistrictEntity, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @JoinColumn({ name: 'MGPV_District', referencedColumnName: 'id' })
+  district?: DistrictEntity;
 
-  @Column({ name: 'MGPV_Taluka', })
-  taluka?: number;
+  @ManyToOne(() => TalukaEntity, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @JoinColumn({ name: 'MGPV_Taluka', referencedColumnName: 'id' })
+  taluka?: TalukaEntity;
 }

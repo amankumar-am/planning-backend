@@ -2,6 +2,8 @@
 
 import { DataSource } from 'typeorm';
 import dotenv from 'dotenv';
+import { DistrictEntity } from '../modules/district/district.entity';
+import { TalukaEntity } from '../modules/taluka/taluka.entity';
 
 // Load environment variables
 dotenv.config();

@@ -1,45 +1,28 @@
 // src/modules/taluka/taluka.controller.ts
-
+import { Request, Response } from 'express';
+import { sendListResponse, sendErrorResponse } from '../../core/response.util';
 import { TalukaService } from './taluka.service';
 import { TalukaEntity } from './taluka.entity';
 import { BaseController } from '../../core/base.controller';
 import { talukaSchema } from '../../api/models/schemas/taluka.schema';
-import { Request, Response } from 'express';
-import { StatusCodes } from 'http-status-codes';
 
 
 export class TalukaController extends BaseController<TalukaEntity> {
+
   constructor(private readonly talukaService: TalukaService) {
     super(talukaService, talukaSchema);
   }
 
-  async getTalukasByDistrict(req: Request, res: Response) {
-    const districtId = req.query.districtId as string;
-    if (!districtId) {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .json({ message: 'districtId query parameter is required' });
-    }
-
-    const parsedDistrictId = parseInt(districtId);
-    if (isNaN(parsedDistrictId)) {
-      return res
-        .status(StatusCodes.BAD_REQUEST)
-        .json({ message: 'districtId must be a valid number' });
-    }
-
+  async getByDistrictId(req: Request, res: Response): Promise<void> {
     try {
-      const talukas = await this.talukaService.getTalukasByDistrict(parsedDistrictId);
-      if (talukas.length === 0) {
-        return res
-          .status(StatusCodes.NOT_FOUND)
-          .json({ message: `No talukas found for district ID ${parsedDistrictId}` });
+      const districtId = parseInt(req.params.districtId);
+      if (isNaN(districtId)) {
+        throw new Error('Invalid district ID');
       }
-      return res.status(StatusCodes.OK).json(talukas);
-    } catch (error: Error | any) {
-      return res
-        .status(StatusCodes.INTERNAL_SERVER_ERROR)
-        .json({ message: 'Error fetching talukas', error: error.message });
+      const talukas = await this.talukaService.findByDistrictId(districtId);
+      sendListResponse(res, this.schema, talukas);
+    } catch (error: any) {
+      sendErrorResponse(res, error.message || 'Error fetching talukas', 400);
     }
   }
 }

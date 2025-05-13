@@ -13,6 +13,7 @@ export class TalukaService extends BaseService<TalukaEntity> {
   async create(dto: CreateTalukaDto): Promise<TalukaEntity> {
     return this.talukaRepository.create({
       ...dto,
+      district: { id: dto.district } as any,
       isActive: dto.isActive ?? true,
       createdBy: dto.createdBy ?? 'system',
       createdAt: dto.createdAt ?? new Date(),
@@ -45,9 +46,11 @@ export class TalukaService extends BaseService<TalukaEntity> {
     return taluka;
   }
 
-  async getTalukasByDistrict(districtId: number): Promise<Taluka[]> {
-    return await this.talukaRepository.find({
-      where: { MT_District: districtId },
-    });
+  async findByDistrictId(districtId: number): Promise<TalukaEntity[]> {
+    const talukas = await this.talukaRepository.findByDistrictId(districtId);
+    if (!talukas || talukas.length === 0) {
+      throw new Error(`No talukas found for district ID ${districtId}`);
+    }
+    return talukas;
   }
 }

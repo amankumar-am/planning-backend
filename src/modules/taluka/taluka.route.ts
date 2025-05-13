@@ -10,9 +10,7 @@ const repository = new TalukaRepository();
 const service = new TalukaService(repository);
 const controller = new TalukaController(service);
 
-const defaultRouter = createModuleRouter(controller, '/talukas');
+const router = createModuleRouter(controller, '');
+router.get('/district/:districtId', controller.getByDistrictId.bind(controller));
 
-const router = Router();
-router.get('/', defaultRouter);
-router.get('/getTalukasByDistrict/:districtId', controller.getTalukasByDistrict.bind(controller));
-
+export default router;

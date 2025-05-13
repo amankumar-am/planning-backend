@@ -14,6 +14,8 @@ export class GpVillageService extends BaseService<GpVillageEntity> {
   async create(dto: CreateGpVillageDto): Promise<GpVillageEntity> {
     return this.gpVillageRepository.create({
       ...dto,
+      district: { id: dto.district } as any,
+      taluka: { id: dto.taluka } as any,
       isActive: dto.isActive ?? true,
       createdBy: dto.createdBy ?? 'system',
       createdAt: dto.createdAt ?? new Date(),
@@ -44,5 +46,21 @@ export class GpVillageService extends BaseService<GpVillageEntity> {
       throw new Error(`GpVillage with id ${id} not found`);
     }
     return gpVillage;
+  }
+
+  async findByDistrictId(districtId: number): Promise<GpVillageEntity[]> {
+    const villages = await this.gpVillageRepository.findByDistrictId(districtId);
+    if (!villages || villages.length === 0) {
+      throw new Error(`No villages found for district ID ${districtId}`);
+    }
+    return villages;
+  }
+
+  async findByTalukaId(talukaId: number): Promise<GpVillageEntity[]> {
+    const villages = await this.gpVillageRepository.findByTalukaId(talukaId);
+    if (!villages || villages.length === 0) {
+      throw new Error(`No villages found for district ID ${talukaId}`);
+    }
+    return villages;
   }
 }

@@ -1,7 +1,9 @@
 // src/modules/gpvillage/gpvillage.type.ts
 
-import { IsString, IsOptional, IsBoolean, IsDate } from 'class-validator';
+import { IsString, IsOptional, IsBoolean, IsDate, IsNumber } from 'class-validator';
 import { BaseDtoFields } from '../../core/base.type';
+import { DistrictEntity } from '../district/district.entity';
+import { TalukaEntity } from '../taluka/taluka.entity';
 
 export class CreateGpVillageDto extends BaseDtoFields {
   @IsString()
@@ -22,13 +24,13 @@ export class CreateGpVillageDto extends BaseDtoFields {
   @IsOptional()
   population2011?: number;
 
-  @IsString()
+  @IsNumber()
   @IsOptional()
-  district?: number;
+  district?: DistrictEntity;
 
-  @IsString()
+  @IsNumber()
   @IsOptional()
-  taluka?: number;
+  taluka?: TalukaEntity;
 }
 
 export class UpdateGpVillageDto implements Partial<CreateGpVillageDto> {
@@ -50,13 +52,14 @@ export class UpdateGpVillageDto implements Partial<CreateGpVillageDto> {
   @IsOptional()
   population2011?: number;
 
-  @IsString()
+  @IsNumber()
   @IsOptional()
-  district?: number;
+  district?: DistrictEntity;
 
-  @IsString()
+  @IsNumber()
   @IsOptional()
-  taluka?: number;
+  taluka?: TalukaEntity;
+
   @IsBoolean()
   @IsOptional()
   isActive?: boolean;
