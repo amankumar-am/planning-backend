@@ -4,7 +4,6 @@ import { createModuleRouter } from '../../core/module.factory';
 import { TalukaController } from './taluka.controller';
 import { TalukaService } from './taluka.service';
 import { TalukaRepository } from './taluka.repository';
-import { Router } from 'express';
 
 const repository = new TalukaRepository();
 const service = new TalukaService(repository);

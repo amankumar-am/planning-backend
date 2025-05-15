@@ -10,6 +10,7 @@ import sectorRoute from './modules/sector/sector.route';
 import subsectorRoute from './modules/subsector/subsector.route';
 import talukaRoute from './modules/taluka/taluka.route';
 import gpVillageRoute from './modules/gpVillage/gpVillage.route';
+import planningstage1Route from './modules/planningstage1/planningstage1.route';
 
 
 const apiRouter = Router();
@@ -22,5 +23,6 @@ apiRouter.use('/subSectors', subsectorRoute);
 apiRouter.use('/districts', districtRoute);
 apiRouter.use('/talukas', talukaRoute);
 apiRouter.use('/gpVillages', gpVillageRoute);
+apiRouter.use('/ps1', planningstage1Route);
 
 export default apiRouter;
