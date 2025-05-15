@@ -1,7 +1,35 @@
+// src/modules/planningstage1/planningstage1.service.ts
+
 import { BaseService } from '../../core/base.service';
 import { PlanningStage1Entity } from './planningstage1.entity';
-import { PlanningStage1Repository } from './planningstage1.repository';
+import { ChartDataPoint, PlanningStage1Repository, ApiAvailableFinancialYearDto } from './planningstage1.repository';
 import { CreatePlanningStage1Dto, UpdatePlanningStage1Dto } from './planningstage1.type';
+
+export interface UniqueCountResponse {
+  uniqueCount: number;
+  title: string;
+}
+
+export interface ChartDataResponse {
+  data: ChartDataPoint[];
+  title: string;
+  xAxisTitle: string; // Or derive this from columnName
+  // chartType?: string; // Frontend can decide this, or you can suggest one
+}
+
+export interface GlobalCountResponse { // Similar to UniqueCountResponse, but for global counts
+  count: number;
+  title: string;
+}
+
+export { ApiAvailableFinancialYearDto };
+function generateTitle(columnName: string, type: 'count' | 'chart'): string {
+  const friendlyName = columnName.charAt(0).toUpperCase() + columnName.slice(1);
+  if (type === 'count') {
+    return `Total Unique ${friendlyName}s`;
+  }
+  return `${friendlyName} Distribution`;
+}
 
 export class PlanningStage1Service extends BaseService<PlanningStage1Entity> {
   constructor(private readonly planningStage1Repository: PlanningStage1Repository) {
@@ -42,4 +70,54 @@ export class PlanningStage1Service extends BaseService<PlanningStage1Entity> {
     }
     return planningStage1;
   }
+
+  async getUniqueCountForDashboard(
+    columnName: 'fund' | 'taluka' | 'sector' | 'stage',
+    financialYearId: number,
+    title?: string // Optional title override
+  ): Promise<UniqueCountResponse> {
+    const count = await this.planningStage1Repository.getUniqueCountByFinancialYear(columnName, financialYearId);
+    return {
+      uniqueCount: count,
+      title: title || generateTitle(columnName, 'count'),
+    };
+  }
+
+  async getChartDataForDashboard(
+    groupByColumn: 'fund' | 'taluka' | 'sector' | 'stage',
+    financialYearId: number,
+    title?: string, // Optional title override
+    xAxisTitle?: string // Optional xAxisTitle override
+  ): Promise<ChartDataResponse> {
+    const data = await this.planningStage1Repository.getAggregatedDataByFinancialYear(groupByColumn, financialYearId);
+    const defaultTitle = generateTitle(groupByColumn, 'chart');
+    const defaultXAxisTitle = groupByColumn.charAt(0).toUpperCase() + groupByColumn.slice(1);
+
+    return {
+      data,
+      title: title || defaultTitle,
+      xAxisTitle: xAxisTitle || defaultXAxisTitle,
+    };
+  }
+
+  async getGlobalTotalRecords(): Promise<GlobalCountResponse> {
+    const count = await this.planningStage1Repository.getTotalRecordsCount();
+    return {
+      count: count,
+      title: "Total Records in Planning Stage 1" // Title can be set here or passed from controller
+    };
+  }
+
+  async getGlobalDistinctFinancialYearsCount(): Promise<GlobalCountResponse> {
+    const count = await this.planningStage1Repository.getDistinctFinancialYearsCountInPlanningStage1();
+    return {
+      count: count,
+      title: "Unique Financial Years with Data"
+    };
+  }
+
+  async getApiAvailableFinancialYears(): Promise<ApiAvailableFinancialYearDto[]> {
+    return this.planningStage1Repository.getAvailableFinancialYears();
+  }
+
 }

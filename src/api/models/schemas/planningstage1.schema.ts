@@ -1,6 +1,6 @@
 // src/api/models/schemas/planningstage1.schema.ts
 
-import { SchemaConfig, commonSchemaFields } from '../base.dto';
+import { ChartingSchemaConfig, SchemaConfig, commonSchemaFields } from '../base.dto';
 
 export const PlanningStage1Schema: SchemaConfig = {
   entity: 'PlanningStage1',
@@ -16,3 +16,10 @@ export const PlanningStage1Schema: SchemaConfig = {
   ],
   defaultVisibleColumns: ['financialYear', 'fund', 'taluka', 'sector', 'stage'],
 };
+
+export const dashboardSchema: ChartingSchemaConfig = {
+  globalCountDataArray: [],
+  countDataArray: [],
+  chartDataArray: [],
+  financialYears: [],
+}

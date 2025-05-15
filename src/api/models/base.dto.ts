@@ -23,3 +23,11 @@ export const commonSchemaFields: SchemaConfig['columns'] = [
     { field: 'modifiedBy', label: 'Modified By', type: 'string' },
     { field: 'modifiedAt', label: 'Modified At', type: 'datetime' },
 ];
+
+
+export interface ChartingSchemaConfig {
+    globalCountDataArray: Array<number>,
+    countDataArray: Array<number>,
+    chartDataArray: Array<number>,
+    financialYears: Array<number>
+}
