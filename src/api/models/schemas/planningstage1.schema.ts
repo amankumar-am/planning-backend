@@ -23,3 +23,17 @@ export const dashboardSchema: ChartingSchemaConfig = {
   chartDataArray: [],
   financialYears: [],
 }
+
+
+// Stage - 1 - Demand
+// Stage - 2 - Primary Sanction
+// Stage - 3 - Technical Sanction
+// Stage - 4 - Administrative Sanction
+// Stage - 5 - Grant
+// Stage - 6 - Work Order
+// Stage - 7 - Pre Inspection
+// Stage - 8 - Mid Inspection
+// Stage - 9 - Post Inspection
+// Stage - 10 - Final Payment
+// Stage - 11 - UTC
+// Stage - 12 - Completion

@@ -15,7 +15,8 @@ const router: Router = createModuleRouter(controller, '');
 router.get('/dashboard/global/total-records', controller.getGlobalTotalRecords);
 router.get('/dashboard/global/distinct-financial-years', controller.getGlobalDistinctFinancialYears);
 router.get('/dashboard/available-financial-years', controller.getAvailableFinancialYears);
-router.get('/dashboard/count/:fyId/:columnName', controller.getDashboardUniqueCount.bind(controller));
+router.get('/dashboard/count/:fyId/:columnName/:stageId', controller.getDashboardUniqueCount.bind(controller)); // For stage with stageId
+router.get('/dashboard/count/:fyId/:columnName', controller.getDashboardUniqueCount.bind(controller)); // For all other columns
 router.get('/dashboard/chart/:fyId/:groupByColumn', controller.getDashboardChartData.bind(controller));
 
 export default router;

@@ -85,7 +85,6 @@ export class PlanningStage1Repository extends BaseRepository<PlanningStage1Entit
     return result ? parseInt(result.uniqueCount, 10) : 0;
   }
 
-
   async getAggregatedDataByFinancialYear(
     groupByColumn: 'fund' | 'taluka' | 'sector' | 'stage',
     financialYearId: number
@@ -158,5 +157,18 @@ export class PlanningStage1Repository extends BaseRepository<PlanningStage1Entit
       id: fy.id,
       name: fy.name
     }));
+  }
+
+  async countByFinancialYear(financialYearId: number): Promise<number> {
+    return this.typeOrmRepository.createQueryBuilder("ps1")
+      .where("ps1.financialYear = :financialYearId", { financialYearId })
+      .getCount();
+  }
+
+  async countByStageAndFinancialYear(stageId: number, financialYearId: number): Promise<number> {
+    return this.typeOrmRepository.createQueryBuilder("ps1")
+      .where("ps1.financialYear = :financialYearId", { financialYearId })
+      .andWhere("ps1.stage = :stageId", { stageId })
+      .getCount();
   }
 }

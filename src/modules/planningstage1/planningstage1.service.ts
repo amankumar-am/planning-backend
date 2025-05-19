@@ -104,7 +104,7 @@ export class PlanningStage1Service extends BaseService<PlanningStage1Entity> {
     const count = await this.planningStage1Repository.getTotalRecordsCount();
     return {
       count: count,
-      title: "Total Records in Planning Stage 1" // Title can be set here or passed from controller
+      title: "Total Records" // Title can be set here or passed from controller
     };
   }
 
@@ -112,12 +112,20 @@ export class PlanningStage1Service extends BaseService<PlanningStage1Entity> {
     const count = await this.planningStage1Repository.getDistinctFinancialYearsCountInPlanningStage1();
     return {
       count: count,
-      title: "Unique Financial Years with Data"
+      title: "Financial Years Covered"
     };
   }
 
   async getApiAvailableFinancialYears(): Promise<ApiAvailableFinancialYearDto[]> {
     return this.planningStage1Repository.getAvailableFinancialYears();
+  }
+
+  async getTotalRecordsCountByFinancialYear(financialYearId: number): Promise<number> {
+    return this.planningStage1Repository.countByFinancialYear(financialYearId);
+  }
+
+  async getCountByStageAndFinancialYear(stageId: number, financialYearId: number): Promise<number> {
+    return this.planningStage1Repository.countByStageAndFinancialYear(stageId, financialYearId);
   }
 
 }

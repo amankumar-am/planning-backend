@@ -7,11 +7,11 @@ import { BaseController } from '../../core/base.controller';
 import { PlanningStage1Schema } from '../../api/models/schemas/planningstage1.schema';
 import { NextFunction, Request, Response } from 'express';
 
-const ALLOWED_DASHBOARD_COLUMNS = ['fund', 'taluka', 'sector', 'stage'] as const;
-type AllowedDashboardColumn = typeof ALLOWED_DASHBOARD_COLUMNS[number];
+const ALLOWED_DASHBOARD_COLUMNS = ['fund', 'taluka', 'sector', 'stage', 'total_count'] as const;
+type AllowedDashboardColumn = Exclude<typeof ALLOWED_DASHBOARD_COLUMNS[number], 'total_count'>;
 
-function isValidDashboardColumn(column: string): column is AllowedDashboardColumn {
-  return ALLOWED_DASHBOARD_COLUMNS.includes(column as AllowedDashboardColumn);
+function isValidDashboardColumn(column: string): column is typeof ALLOWED_DASHBOARD_COLUMNS[number] {
+  return ALLOWED_DASHBOARD_COLUMNS.includes(column as typeof ALLOWED_DASHBOARD_COLUMNS[number]);
 }
 
 export class PlanningStage1Controller extends BaseController<PlanningStage1Entity> {
@@ -33,19 +33,37 @@ export class PlanningStage1Controller extends BaseController<PlanningStage1Entit
     }
   }
 
-  public getDashboardUniqueCount = async (req: Request, res: Response, next: NextFunction): Promise<void> => { // Explicitly Promise<void>
+  public getDashboardUniqueCount = async (req: Request, res: Response, next: NextFunction): Promise<void> => {
     try {
       const financialYearId = parseInt(req.params.fyId, 10);
       const columnName = req.params.columnName;
+      const stageIdRaw = req.params.stageId;
       const title = req.query.title as string | undefined;
 
       if (isNaN(financialYearId)) {
-        res.status(400).json({ message: "Invalid financial year ID." }); // Don't return
-        return; // Explicit return
+        res.status(400).json({ message: "Invalid financial year ID." });
+        return;
       }
       if (!isValidDashboardColumn(columnName)) {
-        res.status(400).json({ message: `Invalid column name for count: ${columnName}.Allowed: ${ALLOWED_DASHBOARD_COLUMNS.join(', ')} ` }); // Don't return
-        return; // Explicit return
+        res.status(400).json({ message: `Invalid column name for count: ${columnName}.Allowed: ${ALLOWED_DASHBOARD_COLUMNS.join(', ')} ` });
+        return;
+      }
+
+      if (columnName === 'total_count') {
+        const count = await this.planningStage1Service.getTotalRecordsCountByFinancialYear(financialYearId);
+        res.json({ uniqueCount: count, title: title || 'Total Records' });
+        return;
+      }
+
+      if (columnName === 'stage' && stageIdRaw !== undefined) {
+        const stageId = parseInt(stageIdRaw, 10);
+        if (isNaN(stageId) || stageId < 1 || stageId > 12) {
+          res.status(400).json({ message: 'Invalid stageId. Must be an integer between 1 and 12.' });
+          return;
+        }
+        const count = await this.planningStage1Service.getCountByStageAndFinancialYear(stageId, financialYearId);
+        res.json({ uniqueCount: count, title: title || `Total Records for Stage ${stageId}` });
+        return;
       }
 
       const result: UniqueCountResponse = await this.planningStage1Service.getUniqueCountForDashboard(
@@ -53,7 +71,7 @@ export class PlanningStage1Controller extends BaseController<PlanningStage1Entit
         financialYearId,
         title
       );
-      res.json(result); // Don't return
+      res.json(result);
     } catch (error) {
       next(error);
     }
