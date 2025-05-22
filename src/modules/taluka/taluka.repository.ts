@@ -13,4 +13,8 @@ export class TalukaRepository extends BaseRepository<TalukaEntity> {
       relations: ['district'],
     });
   }
+
+  async totalCount(): Promise<number> {
+    return this.repository.count();
+  }
 }

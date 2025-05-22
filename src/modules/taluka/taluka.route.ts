@@ -11,5 +11,6 @@ const controller = new TalukaController(service);
 
 const router = createModuleRouter(controller, '');
 router.get('/district/:districtId', controller.getByDistrictId.bind(controller));
+router.get('/dashboard/global/district/:districtId/total-talukas', controller.getTotalTalukas.bind(controller));
 
 export default router;

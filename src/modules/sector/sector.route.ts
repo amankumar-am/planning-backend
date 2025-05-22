@@ -10,5 +10,5 @@ const service = new SectorService(repository);
 const controller = new SectorController(service);
 
 const router = createModuleRouter(controller, '');
-
+router.get('/dashboard/global/total-sectors', controller.getTotalSectors.bind(controller));
 export default router;

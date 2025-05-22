@@ -7,4 +7,8 @@ export class FundRepository extends BaseRepository<FundEntity> {
     constructor() {
         super(FundEntity);
     }
+
+    async totalCount(): Promise<number> {
+        return this.repository.count();
+    }
 }

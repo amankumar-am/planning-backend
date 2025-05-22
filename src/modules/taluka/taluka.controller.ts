@@ -25,4 +25,17 @@ export class TalukaController extends BaseController<TalukaEntity> {
       sendErrorResponse(res, error.message || 'Error fetching talukas', 400);
     }
   }
+
+  async getTotalTalukas(req: Request, res: Response): Promise<void> {
+    try {
+      const districtId = parseInt(req.params.districtId);
+      if (isNaN(districtId)) {
+        throw new Error('Invalid district ID');
+      }
+      const totalTalukas = await this.talukaService.totalCount();
+      res.json({ title: 'Total Talukas', uniqueCount: totalTalukas });
+    } catch (error: any) {
+      sendErrorResponse(res, error.message || 'Error fetching total talukas', 400);
+    }
+  }
 }

@@ -44,4 +44,8 @@ export class SectorService extends BaseService<SectorEntity> {
         }
         return sector;
     }
+
+    async totalCount(): Promise<number> {
+        return this.sectorRepository.totalCount();
+    }
 }

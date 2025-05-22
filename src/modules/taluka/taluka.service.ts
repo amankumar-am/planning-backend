@@ -53,4 +53,8 @@ export class TalukaService extends BaseService<TalukaEntity> {
     }
     return talukas;
   }
+
+  async totalCount(): Promise<number> {
+    return this.talukaRepository.totalCount();
+  }
 }

@@ -18,5 +18,4 @@ router.get('/dashboard/available-financial-years', controller.getAvailableFinanc
 router.get('/dashboard/count/:fyId/:columnName/:stageId', controller.getDashboardUniqueCount.bind(controller)); // For stage with stageId
 router.get('/dashboard/count/:fyId/:columnName', controller.getDashboardUniqueCount.bind(controller)); // For all other columns
 router.get('/dashboard/chart/:fyId/:groupByColumn', controller.getDashboardChartData.bind(controller));
-
 export default router;

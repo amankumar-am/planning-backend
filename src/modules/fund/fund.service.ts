@@ -44,4 +44,8 @@ export class FundService extends BaseService<FundEntity> {
         }
         return fund;
     }
+
+    async totalCount(): Promise<number> {
+        return this.fundRepository.totalCount();
+    }
 }

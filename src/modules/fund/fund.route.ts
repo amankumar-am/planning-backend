@@ -13,6 +13,6 @@ const service = new FundService(repository);
 const controller = new FundController(service);
 
 const router = createModuleRouter(controller, '');
-
+router.get('/dashboard/global/total-funds', controller.getTotalFunds.bind(controller));
 export default router;
 

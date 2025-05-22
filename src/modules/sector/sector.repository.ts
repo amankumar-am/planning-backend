@@ -8,4 +8,8 @@ export class SectorRepository extends BaseRepository<SectorEntity> {
     constructor() {
         super(SectorEntity);
     }
+
+    async totalCount(): Promise<number> {
+        return this.repository.count();
+    }
 }
