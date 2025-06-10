@@ -1,4 +1,4 @@
-// src/modules/gpVillage/gpvillage.service.ts
+// src/modules/gpVillage/gpVillage.service.ts
 
 import { BaseService } from '../../core/base.service';
 import { GpVillageEntity } from './gpVillage.entity';
@@ -36,7 +36,6 @@ export class GpVillageService extends BaseService<GpVillageEntity> {
 
   async findAll(): Promise<GpVillageEntity[]> {
     const gpVillages = await this.gpVillageRepository.findAll();
-    console.log('GpVillages:', gpVillages); // Debug log
     return gpVillages;
   }
 

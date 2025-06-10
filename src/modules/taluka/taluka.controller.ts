@@ -20,7 +20,13 @@ export class TalukaController extends BaseController<TalukaEntity> {
         throw new Error('Invalid district ID');
       }
       const talukas = await this.talukaService.findByDistrictId(districtId);
-      sendListResponse(res, this.schema, talukas);
+      // Map district to string and prant to string
+      const mappedTalukas = talukas.map(taluka => ({
+        ...taluka,
+        district: taluka.district?.nameEn || taluka.district?.name || '',
+        prant: taluka.prant?.toString() || '',
+      }));
+      sendListResponse(res, this.schema, mappedTalukas);
     } catch (error: any) {
       sendErrorResponse(res, error.message || 'Error fetching talukas', 400);
     }
@@ -33,9 +39,25 @@ export class TalukaController extends BaseController<TalukaEntity> {
         throw new Error('Invalid district ID');
       }
       const totalTalukas = await this.talukaService.totalCount();
+
       res.json({ title: 'Total Talukas', uniqueCount: totalTalukas });
     } catch (error: any) {
       sendErrorResponse(res, error.message || 'Error fetching total talukas', 400);
+    }
+  }
+
+  // Override the list endpoint to map district and prant to string values
+  async list(req: Request, res: Response): Promise<void> {
+    try {
+      const talukas = await this.talukaService.findAllWithRelations();
+      const mappedTalukas = talukas.map(taluka => ({
+        ...taluka,
+        district: taluka.district || '',
+        prant: taluka.prant?.toString() || '',
+      }));
+      sendListResponse(res, this.schema, mappedTalukas);
+    } catch (error: any) {
+      sendErrorResponse(res, error.message || 'Error fetching talukas', 400);
     }
   }
 }

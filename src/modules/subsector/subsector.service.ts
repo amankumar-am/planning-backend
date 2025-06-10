@@ -34,8 +34,11 @@ export class SubSectorService extends BaseService<SubSectorEntity> {
 
   async findAll(): Promise<SubSectorEntity[]> {
     const subSectors = await this.subSectorRepository.findAll();
-    console.log('SubSectors:', subSectors); // Debug log
     return subSectors;
+  }
+
+  async findAllWithRelations(): Promise<SubSectorEntity[]> {
+    return this.subSectorRepository.findAllWithRelations(['sector']);
   }
 
   async findOne(id: number): Promise<SubSectorEntity> {

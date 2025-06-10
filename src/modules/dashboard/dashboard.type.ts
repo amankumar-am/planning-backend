@@ -1,4 +1,4 @@
-// src/modules/planningstage1/planningstage1.type.ts
+// src/modules/dashboard/planningstage1.type.ts
 
 import { IsString, IsOptional, IsBoolean, IsDate, IsNumber } from 'class-validator';
 import { BaseDtoFields } from '../../core/base.type';

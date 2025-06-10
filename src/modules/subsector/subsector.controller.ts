@@ -24,4 +24,18 @@ export class SubSectorController extends BaseController<SubSectorEntity> {
       sendErrorResponse(res, error.message || 'Error fetching subSectors', 400);
     }
   }
+
+  // Override the list endpoint to map sector to string value
+  async list(req: Request, res: Response): Promise<void> {
+    try {
+      const subSectors = await this.subSectorService.findAllWithRelations();
+      const mappedSubSectors = subSectors.map(subSector => ({
+        ...subSector,
+        sector: subSector.sector || '',
+      }));
+      sendListResponse(res, this.schema, mappedSubSectors);
+    } catch (error: any) {
+      sendErrorResponse(res, error.message || 'Error fetching subSectors', 400);
+    }
+  }
 }

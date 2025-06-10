@@ -1,3 +1,5 @@
+// src/modules/district/district.service.ts
+
 import { BaseService } from '../../core/base.service';
 import { DistrictEntity } from './district.entity';
 import { DistrictRepository } from './district.repository';
@@ -11,6 +13,7 @@ export class DistrictService extends BaseService<DistrictEntity> {
   async create(dto: CreateDistrictDto): Promise<DistrictEntity> {
     return this.districtRepository.create({
       ...dto,
+      state: { id: dto.state } as any,
       isActive: dto.isActive ?? true,
       createdBy: dto.createdBy ?? 'system',
       createdAt: dto.createdAt ?? new Date(),
@@ -31,7 +34,6 @@ export class DistrictService extends BaseService<DistrictEntity> {
 
   async findAll(): Promise<DistrictEntity[]> {
     const districts = await this.districtRepository.findAll();
-    console.log('Districts:', districts); // Debug log
     return districts;
   }
 
@@ -41,5 +43,9 @@ export class DistrictService extends BaseService<DistrictEntity> {
       throw new Error(`District with id ${id} not found`);
     }
     return district;
+  }
+
+  async findAllWithRelations(): Promise<DistrictEntity[]> {
+    return this.districtRepository.findAllWithRelations(['state']);
   }
 }

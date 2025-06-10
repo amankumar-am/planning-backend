@@ -33,7 +33,6 @@ export class FundService extends BaseService<FundEntity> {
 
     async findAll(): Promise<FundEntity[]> {
         const funds = await this.fundRepository.findAll();
-        console.log('Funds:', funds); // Debug log
         return funds;
     }
 

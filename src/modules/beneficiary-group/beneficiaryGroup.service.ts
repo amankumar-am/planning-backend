@@ -34,7 +34,6 @@ export class BeneficiaryGroupService extends BaseService<BeneficiaryGroup> {
 
     async findAll(): Promise<BeneficiaryGroup[]> {
         const funds = await this.bgRepository.findAll();
-        console.log('Funds:', funds); // Debug log
         return funds;
     }
 

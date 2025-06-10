@@ -43,4 +43,8 @@ export class BaseRepository<T extends ObjectLiteral> {
     async find(options?: { where?: Partial<T> }): Promise<T[]> {
         return await this.repository.find(options);
     }
+
+    async findAllWithRelations(relations: string[]): Promise<T[]> {
+        return this.repository.find({ relations });
+    }
 }

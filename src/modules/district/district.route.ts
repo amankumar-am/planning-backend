@@ -1,13 +1,17 @@
 // src/modules/district/district.route.ts
 
-import { BaseRepository } from '../../core/base.repository';
-import { createModuleRouter } from '../../core/module.factory';
+import { Router } from 'express';
 import { DistrictController } from './district.controller';
-import { DistrictEntity } from './district.entity';
 import { DistrictService } from './district.service';
+import { DistrictRepository } from './district.repository';
 
-const repository = new BaseRepository(DistrictEntity);
+const repository = new DistrictRepository();
 const service = new DistrictService(repository);
 const controller = new DistrictController(service);
 
-export default createModuleRouter(controller, '/districts');
+const router = Router();
+
+router.get('/', controller.list.bind(controller));
+// Add more explicit routes as needed
+
+export default router;

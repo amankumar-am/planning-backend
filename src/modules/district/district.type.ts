@@ -2,6 +2,7 @@
 
 import { IsString, IsOptional, IsBoolean, IsDate, IsNumber } from 'class-validator';
 import { BaseDtoFields } from '../../core/base.type';
+import { StateEntity } from '../state/state.entity';
 export class CreateDistrictDto extends BaseDtoFields {
   @IsNumber()
   eDharaCode!: number;
@@ -13,7 +14,7 @@ export class CreateDistrictDto extends BaseDtoFields {
   nameGu!: string;
 
   @IsString()
-  state!: number;
+  state!: StateEntity;
 }
 
 export class UpdateDistrictDto implements Partial<CreateDistrictDto> {
@@ -27,7 +28,7 @@ export class UpdateDistrictDto implements Partial<CreateDistrictDto> {
   nameGu!: string;
 
   @IsString()
-  state!: number;
+  state!: StateEntity;
 
   @IsBoolean()
   @IsOptional()

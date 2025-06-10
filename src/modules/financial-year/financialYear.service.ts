@@ -35,7 +35,6 @@ export class FinancialYearService extends BaseService<FinancialYear> {
 
     async findAll(): Promise<FinancialYear[]> {
         const funds = await this.fyRepository.findAll();
-        console.log('Funds:', funds); // Debug log
         return funds;
     }
 

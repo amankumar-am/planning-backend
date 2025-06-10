@@ -1,10 +1,10 @@
-// src/modules/planningstage1/planningstage1.controller.ts
+// src/modules/dashboard/dashboard.controller.ts
 
 
-import { UniqueCountResponse, ChartDataResponse, PlanningStage1Service, ApiAvailableFinancialYearDto, GlobalCountResponse } from './planningstage1.service';
-import { PlanningStage1Entity } from './planningstage1.entity';
+import { UniqueCountResponse, ChartDataResponse, PlanningStage1Service, ApiAvailableFinancialYearDto, GlobalCountResponse } from './dashboard.service';
+import { PlanningStage1Entity } from './dashboard.entity';
 import { BaseController } from '../../core/base.controller';
-import { PlanningStage1Schema } from '../../api/models/schemas/planningstage1.schema';
+import { PlanningStage1Schema } from '../../api/models/schemas/dashboard.schema';
 import { NextFunction, Request, Response } from 'express';
 
 const ALLOWED_DASHBOARD_COLUMNS = ['fund', 'taluka', 'sector', 'stage', 'total_count'] as const;
@@ -78,17 +78,11 @@ export class PlanningStage1Controller extends BaseController<PlanningStage1Entit
   }
 
   public getDashboardChartData = async (req: Request, res: Response, next: NextFunction): Promise<void> => { // Explicitly Promise<void>
-    console.log("hello from getDashboardChartData");
-    console.log(req.params);
     try {
       const financialYearId = parseInt(req.params.fyId, 10);
       const groupByColumn = req.params.groupByColumn;
       const title = req.query.title as string | undefined;
       const xAxisTitle = req.query.xAxisTitle as string | undefined;
-
-      console.log(`Financial Year ID: ${financialYearId}, Group By Column: ${groupByColumn}, Title: ${title}, X-Axis Title: ${xAxisTitle}`);
-
-
       if (isNaN(financialYearId)) {
         res.status(400).json({ message: "Invalid financial year ID." }); // Don't return
         return; // Explicit return

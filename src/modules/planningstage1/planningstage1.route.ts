@@ -1,16 +1,15 @@
 // src/modules/planningstage1/planningstage1.route.ts
 
-import { createModuleRouter } from '../../core/module.factory';
-import { PlanningStage1Controller } from './planningstage1.controller';
-import { PlanningStage1Service } from './planningstage1.service';
-import { PlanningStage1Repository } from './planningstage1.repository';
 import { Router } from 'express';
+import { PlanningStage1Controller } from '../dashboard/dashboard.controller';
+import { PlanningStage1Service } from '../dashboard/dashboard.service';
+import { PlanningStage1Repository } from '../dashboard/dashboard.repository';
 
 const repository = new PlanningStage1Repository();
 const service = new PlanningStage1Service(repository);
 const controller = new PlanningStage1Controller(service);
 
-const router: Router = createModuleRouter(controller, '');
+const router = Router();
 
 router.get('/dashboard/global/total-records', controller.getGlobalTotalRecords);
 router.get('/dashboard/global/distinct-financial-years', controller.getGlobalDistinctFinancialYears);

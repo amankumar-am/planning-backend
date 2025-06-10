@@ -1,6 +1,6 @@
-// src/modules/planningstage1/planningstage1.repository.ts
+// src/modules/dashboard/planningstage1.repository.ts
 
-import { PlanningStage1Entity } from './planningstage1.entity';
+import { PlanningStage1Entity } from './dashboard.entity';
 import { BaseRepository } from '../../core/base.repository';
 import { Brackets, Repository } from 'typeorm';
 import { AppDataSource } from '../../config/database';

@@ -1,4 +1,4 @@
-// src/modules/planningstage1/planningstage1.entity.ts
+// src/modules/dashboard/planningstage1.entity.ts
 
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { BaseEntity } from '../../core/base.entity';

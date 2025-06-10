@@ -34,8 +34,11 @@ export class TalukaService extends BaseService<TalukaEntity> {
 
   async findAll(): Promise<TalukaEntity[]> {
     const talukas = await this.talukaRepository.findAll();
-    console.log('Talukas:', talukas); // Debug log
     return talukas;
+  }
+
+  async findAllWithRelations(): Promise<TalukaEntity[]> {
+    return this.talukaRepository.findAllWithRelations(['district']);
   }
 
   async findOne(id: number): Promise<TalukaEntity> {

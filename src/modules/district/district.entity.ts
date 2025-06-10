@@ -1,7 +1,8 @@
 // src/modules/district/district.entity.ts
 
-import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { BaseEntity } from '../../core/base.entity';
+import { StateEntity } from '../state/state.entity';
 
 @Entity('Master_District')
 export class DistrictEntity extends BaseEntity {
@@ -17,8 +18,9 @@ export class DistrictEntity extends BaseEntity {
   @Column({ name: 'MD_Name_Gu', length: 500 })
   nameGu!: string;
 
-  @Column({ name: 'MD_State' })
-  state!: number;
+  @ManyToOne(() => StateEntity, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @JoinColumn({ name: 'MD_State', referencedColumnName: 'id' })
+  state!: StateEntity;
 
   @Column({ name: 'MD_Name_En', length: 100 })
   name!: string;

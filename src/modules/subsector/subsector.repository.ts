@@ -14,4 +14,8 @@ export class SubSectorRepository extends BaseRepository<SubSectorEntity> {
       relations: ['sector'],
     });
   }
+
+  async findAllWithRelations(relations: string[]): Promise<SubSectorEntity[]> {
+    return this.repository.find({ relations });
+  }
 }

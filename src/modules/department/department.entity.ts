@@ -5,9 +5,18 @@ import { BaseEntity } from '../../core/base.entity';
 
 @Entity('Master_Department')
 export class DepartmentEntity extends BaseEntity {
-    @PrimaryGeneratedColumn({ name: 'MD_Id' })
+    @PrimaryGeneratedColumn({ name: 'MDept_Id' })
     id!: number;
 
-    @Column({ name: 'MD_Name', length: 100 })
+    @Column({ name: 'MDept_Code', length: 100 })
+    code!: string;
+
+    @Column({ name: 'MDept_Name_En', length: 100 })
     name!: string;
+
+    @Column({ name: 'MDept_Name_En', length: 100 })
+    nameEn!: string;
+
+    @Column({ name: 'MDept_Name_Gu', length: 100 })
+    nameGu!: string;
 }

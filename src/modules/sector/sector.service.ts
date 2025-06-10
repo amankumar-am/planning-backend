@@ -33,7 +33,6 @@ export class SectorService extends BaseService<SectorEntity> {
 
     async findAll(): Promise<SectorEntity[]> {
         const sectors = await this.sectorRepository.findAll();
-        console.log('Funds:', sectors); // Debug log
         return sectors;
     }
 

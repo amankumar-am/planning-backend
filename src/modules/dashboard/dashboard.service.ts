@@ -1,9 +1,9 @@
-// src/modules/planningstage1/planningstage1.service.ts
+// src/modules/dashboard/dashboard.service.ts
 
 import { BaseService } from '../../core/base.service';
-import { PlanningStage1Entity } from './planningstage1.entity';
-import { ChartDataPoint, PlanningStage1Repository, ApiAvailableFinancialYearDto } from './planningstage1.repository';
-import { CreatePlanningStage1Dto, UpdatePlanningStage1Dto } from './planningstage1.type';
+import { PlanningStage1Entity } from './dashboard.entity';
+import { ChartDataPoint, PlanningStage1Repository, ApiAvailableFinancialYearDto } from './dashboard.repository';
+import { CreatePlanningStage1Dto, UpdatePlanningStage1Dto } from './dashboard.type';
 
 export interface UniqueCountResponse {
   uniqueCount: number;
@@ -59,7 +59,6 @@ export class PlanningStage1Service extends BaseService<PlanningStage1Entity> {
 
   async findAll(): Promise<PlanningStage1Entity[]> {
     const planningStage1s = await this.planningStage1Repository.findAll();
-    console.log('PlanningStage1s:', planningStage1s); // Debug log
     return planningStage1s;
   }
 

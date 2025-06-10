@@ -1,12 +1,11 @@
 // generate-api.js
-
 const fs = require('fs');
 const path = require('path');
 
 // Get API name from command-line argument
 const apiName = process.argv[2];
 if (!apiName) {
-  console.error('Please provide an API name (e.g., node generate-api.js sector)');
+  console.error('Please provide an API name.');
   process.exit(1);
 }
 
@@ -18,16 +17,13 @@ const snakeCase = apiName.toLowerCase().replace(/ /g, '_');
 // Define module directory
 const moduleDir = path.join(__dirname, 'src', 'modules', snakeCase);
 if (fs.existsSync(moduleDir)) {
-  console.error(`Directory ${moduleDir} already exists. Choose a different API name.`);
+  console.error('Module already exists:', moduleDir);
   process.exit(1);
 }
 
-// Create module directory
 fs.mkdirSync(moduleDir, { recursive: true });
 
-// File templates
 const templates = {
-  // Entity
   [`${snakeCase}.entity.ts`]: `
 import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from '../../core/base.entity';
@@ -43,15 +39,10 @@ export class ${pascalCase}Entity extends BaseEntity {
   @Column({ name: 'Name_Gu', length: 100, nullable: true })
   nameGu?: string;
 
-  @Column({ name: 'Description_En', length: 500, nullable: true })
-  descriptionEn?: string;
-
-  @Column({ name: 'Description_Gu', length: 500, nullable: true })
-  descriptionGu?: string;
+  // Add more fields or relations as needed
 }
 `,
 
-  // Type (DTOs)
   [`${snakeCase}.type.ts`]: `
 import { IsString, IsOptional, IsBoolean, IsDate } from 'class-validator';
 import { BaseDtoFields } from '../../core/base.type';
@@ -64,13 +55,7 @@ export class Create${pascalCase}Dto extends BaseDtoFields {
   @IsOptional()
   nameGu?: string;
 
-  @IsString()
-  @IsOptional()
-  descriptionEn?: string;
-
-  @IsString()
-  @IsOptional()
-  descriptionGu?: string;
+  // Add more fields or relation IDs as needed
 }
 
 export class Update${pascalCase}Dto implements Partial<Create${pascalCase}Dto> {
@@ -81,14 +66,6 @@ export class Update${pascalCase}Dto implements Partial<Create${pascalCase}Dto> {
   @IsString()
   @IsOptional()
   nameGu?: string;
-
-  @IsString()
-  @IsOptional()
-  descriptionEn?: string;
-
-  @IsString()
-  @IsOptional()
-  descriptionGu?: string;
 
   @IsBoolean()
   @IsOptional()
@@ -110,7 +87,6 @@ export class Update${pascalCase}Dto implements Partial<Create${pascalCase}Dto> {
 }
 `,
 
-  // Repository
   [`${snakeCase}.repository.ts`]: `
 import { ${pascalCase}Entity } from './${snakeCase}.entity';
 import { BaseRepository } from '../../core/base.repository';
@@ -119,10 +95,13 @@ export class ${pascalCase}Repository extends BaseRepository<${pascalCase}Entity>
   constructor() {
     super(${pascalCase}Entity);
   }
+
+  async findAllWithRelations(relations: string[]): Promise<${pascalCase}Entity[]> {
+    return this.repository.find({ relations });
+  }
 }
 `,
 
-  // Service
   [`${snakeCase}.service.ts`]: `
 import { BaseService } from '../../core/base.service';
 import { ${pascalCase}Entity } from './${snakeCase}.entity';
@@ -145,49 +124,44 @@ export class ${pascalCase}Service extends BaseService<${pascalCase}Entity> {
     });
   }
 
-  async update(id: number, dto: Update${pascalCase}Dto): Promise<${pascalCase}Entity> {
-    const ${camelCase} = await this.${camelCase}Repository.findOneOrFail({ where: { id } });
-    Object.assign(${camelCase}, {
-      ...dto,
-      modifiedBy: dto.modifiedBy,
-      modifiedAt: dto.modifiedAt,
-    });
-    return this.${camelCase}Repository.save(${camelCase});
-  }
-
-  async findAll(): Promise<${pascalCase}Entity[]> {
-    const ${camelCase}s = await this.${camelCase}Repository.findAll();
-    console.log('${pascalCase}s:', ${camelCase}s); // Debug log
-    return ${camelCase}s;
-  }
-
-  async findOne(id: number): Promise<${pascalCase}Entity> {
-    const ${camelCase} = await this.${camelCase}Repository.findById(id);
-    if (!${camelCase}) {
-      throw new Error(\`${pascalCase} with id \${id} not found\`);
-    }
-    return ${camelCase};
+  async findAllWithRelations(): Promise<${pascalCase}Entity[]> {
+    return this.${camelCase}Repository.findAllWithRelations([]);
   }
 }
 `,
 
-  // Controller
   [`${snakeCase}.controller.ts`]: `
+import { Request, Response } from 'express';
+import { sendListResponse, sendErrorResponse } from '../../core/response.util';
 import { ${pascalCase}Service } from './${snakeCase}.service';
 import { ${pascalCase}Entity } from './${snakeCase}.entity';
 import { BaseController } from '../../core/base.controller';
-import { ${pascalCase}Schema } from '../../api/models/schemas/${snakeCase}.schema';
+import { ${camelCase}Schema } from '../../api/models/schemas/${snakeCase}.schema';
 
 export class ${pascalCase}Controller extends BaseController<${pascalCase}Entity> {
   constructor(private readonly ${camelCase}Service: ${pascalCase}Service) {
-    super(${camelCase}Service, ${pascalCase}Schema);
+    super(${camelCase}Service, ${camelCase}Schema);
+  }
+
+  // Override the list endpoint to map relations to string values
+  async list(req: Request, res: Response): Promise<void> {
+    try {
+      const items = await this.${camelCase}Service.findAllWithRelations();
+      // Map relations to string if needed
+      const mappedItems = items.map(item => ({
+        ...item,
+        // Example: relationField: item.relationField?.name || '',
+      }));
+      sendListResponse(res, this.schema, mappedItems);
+    } catch (error: any) {
+      sendErrorResponse(res, error.message || 'Error fetching list', 400);
+    }
   }
 }
 `,
 
-  // Route
   [`${snakeCase}.route.ts`]: `
-import { createModuleRouter } from '../../core/module.factory';
+import { Router } from 'express';
 import { ${pascalCase}Controller } from './${snakeCase}.controller';
 import { ${pascalCase}Service } from './${snakeCase}.service';
 import { ${pascalCase}Repository } from './${snakeCase}.repository';
@@ -196,10 +170,14 @@ const repository = new ${pascalCase}Repository();
 const service = new ${pascalCase}Service(repository);
 const controller = new ${pascalCase}Controller(service);
 
-export default createModuleRouter(controller, '/${snakeCase}s');
+const router = Router();
+
+router.get('/', controller.list.bind(controller));
+// Add more explicit routes as needed
+
+export default router;
 `,
 
-  // Schema
   [`${snakeCase}.schema.ts`]: `
 import { SchemaConfig, commonSchemaFields } from '../base.dto';
 
@@ -210,20 +188,17 @@ export const ${camelCase}Schema: SchemaConfig = {
     { field: 'id', label: 'ID', type: 'number', isPrimary: true },
     { field: 'nameEn', label: 'Name (English)', type: 'string' },
     { field: 'nameGu', label: 'Name (Gujarati)', type: 'string' },
-    { field: 'descriptionEn', label: 'Description (English)', type: 'string' },
-    { field: 'descriptionGu', label: 'Description (Gujarati)', type: 'string' },
-    ...commonSchemaFields, // Include common fields
+    // Add more fields, use type: 'string' for relations that will be mapped to names
+    ...commonSchemaFields,
   ],
-  defaultVisibleColumns: ['nameEn', 'nameGu', 'descriptionEn'],
+  defaultVisibleColumns: ['nameEn', 'nameGu'],
 };
 `
 };
 
 // Write files
 Object.entries(templates).forEach(([fileName, content]) => {
-  const filePath = path.join(moduleDir, fileName);
-  fs.writeFileSync(filePath, content.trim(), 'utf8');
-  console.log(`Created ${filePath}`);
+  fs.writeFileSync(path.join(moduleDir, fileName), content.trimStart());
 });
 
 console.log(`Successfully generated ${pascalCase} API in ${moduleDir}`);
