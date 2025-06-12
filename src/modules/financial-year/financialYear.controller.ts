@@ -2,14 +2,14 @@
 
 import { BaseController } from '../../core/base.controller';
 import { FinancialYearService } from './financialYear.service';
-import { FinancialYear } from './financialYear.entity';
+import { FinancialYearEntity } from './financialYear.entity';
 import { financialYearSchema } from '../../api/models/schemas/financial-year.schema';
 import { sendErrorResponse, sendListResponse } from '../../core/response.util';
 import { Request, Response } from 'express';
 
 
 
-export class FinancialYearController extends BaseController<FinancialYear> {
+export class FinancialYearController extends BaseController<FinancialYearEntity> {
     constructor(financialYearService: FinancialYearService) {
         super(financialYearService, financialYearSchema);
     }

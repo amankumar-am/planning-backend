@@ -1,8 +1,8 @@
-// src/modules/dashboard/planningstage1.entity.ts
+// src/modules/dashboard/dashboard.entity.ts
 
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { BaseEntity } from '../../core/base.entity';
-import { FinancialYear } from '../financial-year/financialYear.entity';
+import { FinancialYearEntity } from '../financial-year/financialYear.entity';
 import { FundEntity } from '../fund/fund.entity';
 import { TalukaEntity } from '../taluka/taluka.entity';
 import { SectorEntity } from '../sector/sector.entity';
@@ -12,9 +12,9 @@ export class PlanningStage1Entity extends BaseEntity {
   @PrimaryGeneratedColumn({ name: 'PS1_Id' })
   id!: number;
 
-  @ManyToOne(() => FinancialYear, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @ManyToOne(() => FinancialYearEntity, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
   @JoinColumn({ name: 'PS1_FinancialYear', referencedColumnName: 'id' })
-  financialYear!: FinancialYear;
+  financialYear!: FinancialYearEntity;
 
   @ManyToOne(() => FundEntity, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
   @JoinColumn({ name: 'PS1_Fund', referencedColumnName: 'id' })

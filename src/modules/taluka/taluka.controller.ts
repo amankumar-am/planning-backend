@@ -52,8 +52,8 @@ export class TalukaController extends BaseController<TalukaEntity> {
       const talukas = await this.talukaService.findAllWithRelations();
       const mappedTalukas = talukas.map(taluka => ({
         ...taluka,
-        district: taluka.district || '',
-        prant: taluka.prant?.toString() || '',
+        district: taluka.district || null,
+        prant: taluka.prant || null,
       }));
       sendListResponse(res, this.schema, mappedTalukas);
     } catch (error: any) {

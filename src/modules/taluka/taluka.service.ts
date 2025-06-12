@@ -14,6 +14,7 @@ export class TalukaService extends BaseService<TalukaEntity> {
     return this.talukaRepository.create({
       ...dto,
       district: { id: dto.district } as any,
+      prant: { id: dto.prant } as any,
       isActive: dto.isActive ?? true,
       createdBy: dto.createdBy ?? 'system',
       createdAt: dto.createdAt ?? new Date(),
@@ -38,7 +39,7 @@ export class TalukaService extends BaseService<TalukaEntity> {
   }
 
   async findAllWithRelations(): Promise<TalukaEntity[]> {
-    return this.talukaRepository.findAllWithRelations(['district']);
+    return this.talukaRepository.findAllWithRelations(['district', 'prant']);
   }
 
   async findOne(id: number): Promise<TalukaEntity> {

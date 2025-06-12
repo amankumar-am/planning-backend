@@ -2,17 +2,17 @@
 
 import { BaseService } from '../../core/base.service';
 import { BaseRepository } from '../../core/base.repository';
-import { FinancialYear } from './financialYear.entity';
+import { FinancialYearEntity } from './financialYear.entity';
 import { FinancialYearRepository } from './financialYear.repository';
 import { CreateFinancialYearDto, UpdateFinancialYearDto } from './financialYear.type';
 
 
-export class FinancialYearService extends BaseService<FinancialYear> {
+export class FinancialYearService extends BaseService<FinancialYearEntity> {
     constructor(private readonly fyRepository: FinancialYearRepository) {
         super(fyRepository);
     }
 
-    async create(dto: CreateFinancialYearDto): Promise<FinancialYear> {
+    async create(dto: CreateFinancialYearDto): Promise<FinancialYearEntity> {
         return this.fyRepository.create({
             ...dto,
             isActive: dto.isActive ?? true,
@@ -23,7 +23,7 @@ export class FinancialYearService extends BaseService<FinancialYear> {
         });
     }
 
-    async update(id: number, dto: UpdateFinancialYearDto): Promise<FinancialYear> {
+    async update(id: number, dto: UpdateFinancialYearDto): Promise<FinancialYearEntity> {
         const fund = await this.fyRepository.findOneOrFail({ where: { id } });
         Object.assign(fund, {
             ...dto,
@@ -33,12 +33,12 @@ export class FinancialYearService extends BaseService<FinancialYear> {
         return this.fyRepository.save(fund);
     }
 
-    async findAll(): Promise<FinancialYear[]> {
+    async findAll(): Promise<FinancialYearEntity[]> {
         const funds = await this.fyRepository.findAll();
         return funds;
     }
 
-    async findOne(id: number): Promise<FinancialYear> {
+    async findOne(id: number): Promise<FinancialYearEntity> {
         const fund = await this.fyRepository.findById(id);
         if (!fund) {
             throw new Error(`Fund with id ${id} not found`);

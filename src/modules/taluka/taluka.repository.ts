@@ -10,7 +10,7 @@ export class TalukaRepository extends BaseRepository<TalukaEntity> {
   async findByDistrictId(districtId: number): Promise<TalukaEntity[]> {
     return this.repository.find({
       where: { district: { id: districtId } },
-      relations: ['district'],
+      relations: ['district', 'prant'],
     });
   }
 

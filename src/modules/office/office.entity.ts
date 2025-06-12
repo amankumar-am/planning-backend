@@ -3,6 +3,13 @@
 
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { BaseEntity } from '../../core/base.entity';
+import { OfficeLevelEntity } from '../officeLevel/officeLevel.entity';
+import { DepartmentEntity } from '../department/department.entity';
+import { StateEntity } from '../state/state.entity';
+import { PrantEntity } from '../prant/prant.entity';
+import { TalukaEntity } from '../taluka/taluka.entity';
+import { GpVillageEntity } from '../gpVillage/gpVillage.entity';
+import { DistrictEntity } from '../district/district.entity';
 
 @Entity('Master_Office')
 export class OfficeEntity extends BaseEntity {
@@ -24,14 +31,17 @@ export class OfficeEntity extends BaseEntity {
     @Column({ name: 'MOff_Name_Gu', length: 100 })
     nameGu!: string;
 
-    @Column({ name: 'MOff_Level', length: 100 })
-    level?: string;
+    @ManyToOne(() => OfficeLevelEntity, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    @JoinColumn({ name: 'MOff_Level', referencedColumnName: 'id' })
+    officeLevel!: OfficeLevelEntity;
 
-    @Column({ name: 'MOff_Department', length: 100 })
-    department?: string;
+    @ManyToOne(() => DepartmentEntity, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    @JoinColumn({ name: 'MOff_Department', referencedColumnName: 'id' })
+    department!: DepartmentEntity;
 
-    @Column({ name: 'MOff_ReportsTo', length: 100 })
-    reportsTo?: string;
+    @ManyToOne(() => OfficeEntity, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    @JoinColumn({ name: 'MOff_ReportsTo', referencedColumnName: 'id' })
+    reportsTo!: OfficeEntity;
 
     @Column({ name: 'MOff_EmailId', length: 100 })
     email?: string;
@@ -42,18 +52,26 @@ export class OfficeEntity extends BaseEntity {
     @Column({ name: 'MOff_ControlRoomPhNo', length: 100 })
     controlRoomPhNo?: string;
 
-    @Column({ name: 'MO_MOff_AddressName', length: 100 })
+    @Column({ name: 'MOff_Address', length: 100 })
     address?: string;
 
-    @Column({ name: 'MOff_State', length: 100 })
-    state?: string;
+    @ManyToOne(() => StateEntity, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    @JoinColumn({ name: 'MOff_State', referencedColumnName: 'id' })
+    state!: StateEntity;
 
-    @Column({ name: 'MOff_Prant', length: 100 })
-    prant?: string;
+    @ManyToOne(() => DistrictEntity, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    @JoinColumn({ name: 'MOff_District', referencedColumnName: 'id' })
+    district!: DistrictEntity;
 
-    @Column({ name: 'MOff_Taluka', length: 100 })
-    taluka?: string;
+    @ManyToOne(() => PrantEntity, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    @JoinColumn({ name: 'MOff_Prant', referencedColumnName: 'id' })
+    prant!: PrantEntity;
 
-    @Column({ name: 'MOff_Village', length: 100 })
-    village?: string;
+    @ManyToOne(() => TalukaEntity, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    @JoinColumn({ name: 'MOff_Taluka', referencedColumnName: 'id' })
+    taluka!: TalukaEntity;
+
+    @ManyToOne(() => GpVillageEntity, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+    @JoinColumn({ name: 'MOff_Village', referencedColumnName: 'id' })
+    village!: GpVillageEntity;
 }

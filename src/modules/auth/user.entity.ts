@@ -35,10 +35,10 @@ export class UserEntity extends BaseEntity {
     currentAddress?: string;
 
     @Column({ name: 'MUsr_EmailId', length: 100, unique: true })
-    emailId!: string;
+    email?: string;
 
     @Column({ name: 'MUsr_Mobile', length: 100, unique: true })
-    mobile!: string;
+    mobile?: string;
 
     @Column({ name: 'MUsr_PAN', length: 20, nullable: true })
     pan?: string;

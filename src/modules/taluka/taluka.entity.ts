@@ -3,6 +3,7 @@
 import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
 import { BaseEntity } from '../../core/base.entity';
 import { DistrictEntity } from '../district/district.entity';
+import { PrantEntity } from '../prant/prant.entity';
 
 @Entity('Master_Taluka')
 export class TalukaEntity extends BaseEntity {
@@ -25,6 +26,8 @@ export class TalukaEntity extends BaseEntity {
   @JoinColumn({ name: 'MT_District', referencedColumnName: 'id' })
   district!: DistrictEntity;
 
-  @Column({ name: 'MT_Prant' })
-  prant!: number;
+  @ManyToOne(() => PrantEntity, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
+  @JoinColumn({ name: 'MT_Prant', referencedColumnName: 'id' })
+  prant!: PrantEntity;
+
 }

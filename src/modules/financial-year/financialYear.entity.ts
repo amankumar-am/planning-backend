@@ -3,7 +3,7 @@ import { Entity, Column, PrimaryGeneratedColumn } from 'typeorm';
 import { BaseEntity } from '../../core/base.entity';
 
 @Entity('Master_FinancialYear')
-export class FinancialYear extends BaseEntity {
+export class FinancialYearEntity extends BaseEntity {
     @PrimaryGeneratedColumn({ name: 'MFY_Id' })
     id!: number;
 

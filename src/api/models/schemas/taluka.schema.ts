@@ -13,7 +13,7 @@ export const talukaSchema: SchemaConfig = {
     { field: 'name', label: 'Name (English)', type: 'string' },
     { field: 'nameGu', label: 'Name (Gujarati)', type: 'string' },
     { field: 'district', label: 'District', type: 'string' },
-    { field: 'prant', label: 'Prant', type: 'number' },
+    { field: 'prant', label: 'Prant', type: 'string' },
     ...commonSchemaFields, // Include common fields
   ],
   defaultVisibleColumns: ['eDharaCode', 'nameEn', 'nameGu', 'district', 'prant'],

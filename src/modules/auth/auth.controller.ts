@@ -5,6 +5,7 @@ import { AuthService } from './auth.service';
 import { UserEntity } from './user.entity';
 import { BaseController } from '../../core/base.controller';
 import { UserSchema } from '../../api/models/schemas/user.schema';
+import { sendErrorResponse, sendListResponse } from '../../core/response.util';
 
 export class AuthController extends BaseController<UserEntity> {
     constructor(private readonly authService: AuthService) {
@@ -58,6 +59,23 @@ export class AuthController extends BaseController<UserEntity> {
             res.json(result);
         } catch (error) {
             next(error);
+        }
+    }
+
+    async list(req: Request, res: Response): Promise<void> {
+        try {
+            const users = await this.authService.findAllWithRelations();
+            const mappedUsers = users.map(user => ({
+                ...user,
+                department: user.department || null,
+                office: user.office || null,
+                designation: user.designation || null,
+                employmentType: user.employmentType || null,
+                officerClass: user.officerClass || null,
+            }));
+            sendListResponse(res, this.schema, users);
+        } catch (error: any) {
+            sendErrorResponse(res, error.message || 'Error fetching Employment Types', 400);
         }
     }
 }

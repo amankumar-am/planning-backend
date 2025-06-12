@@ -1,10 +1,10 @@
 // src/modules/financial-year/financialYear.repository.ts
 
-import { FinancialYear } from './financialYear.entity';
+import { FinancialYearEntity } from './financialYear.entity';
 import { BaseRepository } from '../../core/base.repository';
 
-export class FinancialYearRepository extends BaseRepository<FinancialYear> {
+export class FinancialYearRepository extends BaseRepository<FinancialYearEntity> {
     constructor() {
-        super(FinancialYear);
+        super(FinancialYearEntity);
     }
 }

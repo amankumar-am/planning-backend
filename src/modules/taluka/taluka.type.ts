@@ -3,6 +3,7 @@
 import { IsString, IsOptional, IsBoolean, IsDate, IsNumber } from 'class-validator';
 import { BaseDtoFields } from '../../core/base.type';
 import { DistrictEntity } from '../district/district.entity';
+import { PrantEntity } from '../prant/prant.entity';
 export class CreateTalukaDto extends BaseDtoFields {
   @IsNumber()
   eDharaCode?: number;
@@ -17,7 +18,7 @@ export class CreateTalukaDto extends BaseDtoFields {
   district!: DistrictEntity;
 
   @IsNumber()
-  prant!: number;
+  prant!: PrantEntity;
 }
 
 export class UpdateTalukaDto implements Partial<CreateTalukaDto> {
@@ -34,7 +35,7 @@ export class UpdateTalukaDto implements Partial<CreateTalukaDto> {
   district!: DistrictEntity;
 
   @IsNumber()
-  prant!: number;
+  prant!: PrantEntity;
 
   @IsBoolean()
   @IsOptional()

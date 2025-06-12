@@ -16,7 +16,6 @@ export class EmploymentTypeController extends BaseController<EmploymentTypeEntit
   async list(req: Request, res: Response): Promise<void> {
     try {
       const items = await this.service.getAll();
-      console.log(items);
 
       sendListResponse(res, this.schema, items);
     } catch (error: any) {
