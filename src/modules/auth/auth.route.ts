@@ -13,6 +13,7 @@ const router = Router();
 
 router.get('/', controller.list.bind(controller));
 router.get('/query', controller.listWithQuery.bind(controller));
+router.get('/validate-query', controller.validateQuery.bind(controller));
 router.post('/login', controller.login.bind(controller));
 router.post('/register', controller.register.bind(controller));
 router.post('/refresh-token', controller.refreshToken.bind(controller));

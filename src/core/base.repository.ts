@@ -104,33 +104,49 @@ export class BaseRepository<T extends ObjectLiteral> {
 
     private applyFilter(queryBuilder: SelectQueryBuilder<T>, filter: FilterOptions, index: number): void {
         const paramName = `filterValue${index}`;
+
+        // Validate field name to prevent SQL injection
+        if (!filter.field || typeof filter.field !== 'string' || !/^[a-zA-Z_][a-zA-Z0-9_.]*$/.test(filter.field)) {
+            console.warn(`Invalid field name: ${filter.field}`);
+            return; // Skip invalid filters
+        }
+
         const fieldName = `entity.${filter.field}`;
 
-        switch (filter.operator) {
-            case 'eq':
-                queryBuilder.andWhere(`${fieldName} = :${paramName}`, { [paramName]: filter.value });
-                break;
-            case 'ne':
-                queryBuilder.andWhere(`${fieldName} != :${paramName}`, { [paramName]: filter.value });
-                break;
-            case 'like':
-                queryBuilder.andWhere(`${fieldName} LIKE :${paramName}`, { [paramName]: `%${filter.value}%` });
-                break;
-            case 'in':
-                queryBuilder.andWhere(`${fieldName} IN (:...${paramName})`, { [paramName]: filter.value });
-                break;
-            case 'gte':
-                queryBuilder.andWhere(`${fieldName} >= :${paramName}`, { [paramName]: filter.value });
-                break;
-            case 'lte':
-                queryBuilder.andWhere(`${fieldName} <= :${paramName}`, { [paramName]: filter.value });
-                break;
-            case 'isNull':
-                queryBuilder.andWhere(`${fieldName} IS NULL`);
-                break;
-            case 'isNotNull':
-                queryBuilder.andWhere(`${fieldName} IS NOT NULL`);
-                break;
+        try {
+            switch (filter.operator) {
+                case 'eq':
+                    queryBuilder.andWhere(`${fieldName} = :${paramName}`, { [paramName]: filter.value });
+                    break;
+                case 'ne':
+                    queryBuilder.andWhere(`${fieldName} != :${paramName}`, { [paramName]: filter.value });
+                    break;
+                case 'like':
+                    queryBuilder.andWhere(`${fieldName} LIKE :${paramName}`, { [paramName]: `%${filter.value}%` });
+                    break;
+                case 'in':
+                    if (Array.isArray(filter.value) && filter.value.length > 0) {
+                        queryBuilder.andWhere(`${fieldName} IN (:...${paramName})`, { [paramName]: filter.value });
+                    }
+                    break;
+                case 'gte':
+                    queryBuilder.andWhere(`${fieldName} >= :${paramName}`, { [paramName]: filter.value });
+                    break;
+                case 'lte':
+                    queryBuilder.andWhere(`${fieldName} <= :${paramName}`, { [paramName]: filter.value });
+                    break;
+                case 'isNull':
+                    queryBuilder.andWhere(`${fieldName} IS NULL`);
+                    break;
+                case 'isNotNull':
+                    queryBuilder.andWhere(`${fieldName} IS NOT NULL`);
+                    break;
+                default:
+                    console.warn(`Invalid filter operator: ${filter.operator}`);
+            }
+        } catch (error) {
+            console.error(`Error applying filter:`, error);
+            // Skip this filter if it causes an error
         }
     }
 }

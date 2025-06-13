@@ -33,6 +33,12 @@ export abstract class BaseController<T extends ObjectLiteral> {
     async getAllWithQuery(req: Request, res: Response): Promise<void> {
         try {
             const query = this.parseQueryParams(req.query);
+
+            // Validate filters before proceeding
+            if (query.filters && !this.validateFilters(query.filters)) {
+                return sendErrorResponse(res, 'Invalid filter parameters. Please check your filter structure.', 400);
+            }
+
             const result = await this.service.findWithQuery(query, this.relations, this.searchableFields);
             res.json({
                 success: true,
@@ -40,8 +46,9 @@ export abstract class BaseController<T extends ObjectLiteral> {
                 data: result.data,
                 pagination: result.pagination
             });
-        } catch (error) {
-            sendErrorResponse(res, 'Error fetching data', 500);
+        } catch (error: any) {
+            console.error('Query error:', error);
+            sendErrorResponse(res, `Error fetching data: ${error.message}`, 500);
         }
     }
 
@@ -92,6 +99,55 @@ export abstract class BaseController<T extends ObjectLiteral> {
         }
     }
 
+    async validateQuery(req: Request, res: Response): Promise<void> {
+        try {
+            const query = this.parseQueryParams(req.query);
+
+            const validation = {
+                parsed: query,
+                isValid: true,
+                errors: [] as string[]
+            };
+
+            // Validate filters
+            if (query.filters && query.filters.length > 0) {
+                const filterValidation = this.validateFilters(query.filters);
+                if (!filterValidation) {
+                    validation.isValid = false;
+                    validation.errors.push('Invalid filter structure');
+
+                    // Check each filter individually for detailed errors
+                    query.filters.forEach((filter, index) => {
+                        if (!filter || typeof filter !== 'object') {
+                            validation.errors.push(`Filter ${index}: Not an object`);
+                        } else {
+                            if (!filter.field || typeof filter.field !== 'string') {
+                                validation.errors.push(`Filter ${index}: Invalid field name - ${filter.field}`);
+                            }
+                            if (/^\d+$/.test(filter.field)) {
+                                validation.errors.push(`Filter ${index}: Field name cannot be numeric - ${filter.field}`);
+                            }
+                            if (!filter.operator) {
+                                validation.errors.push(`Filter ${index}: Missing operator`);
+                            }
+                            if (typeof filter.value === 'object' && !Array.isArray(filter.value) && filter.operator !== 'isNull' && filter.operator !== 'isNotNull') {
+                                validation.errors.push(`Filter ${index}: Value cannot be an object - ${JSON.stringify(filter.value)}`);
+                            }
+                        }
+                    });
+                }
+            }
+
+            res.json(validation);
+        } catch (error: any) {
+            res.status(400).json({
+                isValid: false,
+                error: error.message,
+                suggestion: 'Check your query parameter format'
+            });
+        }
+    }
+
     private parseQueryParams(query: any): BaseQueryDto {
         const parsedQuery: BaseQueryDto = {};
 
@@ -106,17 +162,63 @@ export abstract class BaseController<T extends ObjectLiteral> {
         // Parse search
         if (query.search) parsedQuery.search = query.search;
 
-        // Parse filters
+        // Parse filters with better error handling
         if (query.filters) {
             try {
-                parsedQuery.filters = typeof query.filters === 'string'
+                const filters = typeof query.filters === 'string'
                     ? JSON.parse(query.filters)
                     : query.filters;
+
+                // Ensure filters is an array
+                parsedQuery.filters = Array.isArray(filters) ? filters : [];
             } catch (error) {
+                console.error('Error parsing filters:', error);
                 parsedQuery.filters = [];
             }
         }
 
         return parsedQuery;
+    }
+
+    private validateFilters(filters: any[]): boolean {
+        try {
+            return filters.every(filter => {
+                // Check if filter has required properties
+                if (!filter || typeof filter !== 'object') {
+                    return false;
+                }
+
+                // Check if field is a string and not empty/numeric only
+                if (!filter.field || typeof filter.field !== 'string' || filter.field.trim() === '' || /^\d+$/.test(filter.field)) {
+                    return false;
+                }
+
+                // Check if operator is valid
+                const validOperators = ['eq', 'ne', 'like', 'in', 'gte', 'lte', 'isNull', 'isNotNull'];
+                if (!filter.operator || !validOperators.includes(filter.operator)) {
+                    return false;
+                }
+
+                // For operators that need values, check if value exists and is not an object (except for arrays in 'in' operator)
+                if (['eq', 'ne', 'like', 'gte', 'lte'].includes(filter.operator)) {
+                    if (filter.value === undefined || filter.value === null) {
+                        return false;
+                    }
+                    // Value should not be an object (except for arrays)
+                    if (typeof filter.value === 'object' && !Array.isArray(filter.value)) {
+                        return false;
+                    }
+                }
+
+                // For 'in' operator, value should be an array
+                if (filter.operator === 'in' && !Array.isArray(filter.value)) {
+                    return false;
+                }
+
+                return true;
+            });
+        } catch (error) {
+            return false;
+        }
     }
 }

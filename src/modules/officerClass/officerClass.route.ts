@@ -11,8 +11,12 @@ const controller = new OfficerClassController(service);
 
 const router = Router();
 
+// Standard CRUD operations
 router.get('/', controller.list.bind(controller));
 router.get('/query', controller.listWithQuery.bind(controller));
-// Add more explicit routes as needed
+router.get('/:id', controller.getById.bind(controller));
+router.post('/', controller.create.bind(controller));
+router.put('/:id', controller.update.bind(controller));
+router.delete('/:id', controller.delete.bind(controller));
 
 export default router;
