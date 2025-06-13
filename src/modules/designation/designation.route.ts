@@ -12,6 +12,7 @@ const controller = new DesignationController(service);
 const router = Router();
 
 router.get('/', controller.list.bind(controller));
+router.get('/query', controller.listWithQuery.bind(controller));
 router.get('/department/:departmentId', controller.getByDepartmentId.bind(controller));
 router.get('/dashboard/global/department/:departmentId/total-designations', controller.getTotalDesignations.bind(controller));
 

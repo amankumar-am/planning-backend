@@ -10,9 +10,13 @@ import { OfficeSchema } from '../../api/models/schemas/office.schema';
 
 export class OfficeController extends BaseController<OfficeEntity> {
     constructor(private officeService: OfficeService) {
-        super(officeService, OfficeSchema);
+        super(
+            officeService,
+            OfficeSchema,
+            ['department', 'reportsTo', 'officeLevel', 'state', 'district', 'prant', 'taluka', 'village'], // relations
+            ['name', 'nameEn', 'nameGu', 'code', 'nicCode', 'email', 'address'] // searchable fields
+        );
     }
-
 
     // Override the list endpoint to map sector to string value
     async list(req: Request, res: Response): Promise<void> {
@@ -34,5 +38,9 @@ export class OfficeController extends BaseController<OfficeEntity> {
         } catch (error: any) {
             sendErrorResponse(res, error.message || 'Error fetching offices', 400);
         }
+    }
+
+    async listWithQuery(req: Request, res: Response): Promise<void> {
+        await this.getAllWithQuery(req, res);
     }
 }

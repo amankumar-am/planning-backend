@@ -10,7 +10,12 @@ import { designationSchema } from '../../api/models/schemas/designation.schema';
 export class DesignationController extends BaseController<DesignationEntity> {
 
   constructor(private readonly designationService: DesignationService) {
-    super(designationService, designationSchema);
+    super(
+      designationService,
+      designationSchema,
+      ['department'], // relations
+      ['name', 'nameEn', 'nameGu', 'code'] // searchable fields
+    );
   }
 
   async getByDepartmentId(req: Request, res: Response): Promise<void> {
@@ -57,5 +62,9 @@ export class DesignationController extends BaseController<DesignationEntity> {
     } catch (error: any) {
       sendErrorResponse(res, error.message || 'Error fetching designations', 400);
     }
+  }
+
+  async listWithQuery(req: Request, res: Response): Promise<void> {
+    await this.getAllWithQuery(req, res);
   }
 }

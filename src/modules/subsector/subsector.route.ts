@@ -12,6 +12,7 @@ const controller = new SubSectorController(service);
 const router = Router();
 
 router.get('/', controller.list.bind(controller));
+router.get('/query', controller.listWithQuery.bind(controller));
 router.get('/sector/:sectorId', controller.getBySectorId.bind(controller));
 
 export default router;

@@ -10,7 +10,12 @@ import { Request, Response } from 'express';
 
 export class DistrictController extends BaseController<DistrictEntity> {
   constructor(private readonly districtService: DistrictService) {
-    super(districtService, districtSchema);
+    super(
+      districtService,
+      districtSchema,
+      ['state'], // relations
+      ['name', 'nameEn', 'nameGu', 'code'] // searchable fields
+    );
   }
 
   async list(req: Request, res: Response): Promise<void> {
@@ -24,5 +29,9 @@ export class DistrictController extends BaseController<DistrictEntity> {
     } catch (error: any) {
       sendErrorResponse(res, error.message || 'Error fetching districts', 400);
     }
+  }
+
+  async listWithQuery(req: Request, res: Response): Promise<void> {
+    await this.getAllWithQuery(req, res);
   }
 }

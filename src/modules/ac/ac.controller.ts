@@ -10,7 +10,12 @@ import { acSchema } from '../../api/models/schemas/ac.schema';
 export class ACController extends BaseController<ACEntity> {
 
   constructor(private readonly acService: ACService) {
-    super(acService, acSchema);
+    super(
+      acService,
+      acSchema,
+      ['district'], // relations
+      ['name', 'nameEn', 'nameGu', 'code'] // searchable fields
+    );
   }
 
   async getByDistrictId(req: Request, res: Response): Promise<void> {
@@ -57,5 +62,9 @@ export class ACController extends BaseController<ACEntity> {
     } catch (error: any) {
       sendErrorResponse(res, error.message || 'Error fetching acs', 400);
     }
+  }
+
+  async listWithQuery(req: Request, res: Response): Promise<void> {
+    await this.getAllWithQuery(req, res);
   }
 }

@@ -9,7 +9,12 @@ import { SubSectorSchema } from '../../api/models/schemas/subSector.schema';
 
 export class SubSectorController extends BaseController<SubSectorEntity> {
   constructor(private subSectorService: SubSectorService) {
-    super(subSectorService, SubSectorSchema);
+    super(
+      subSectorService,
+      SubSectorSchema,
+      ['sector'], // relations
+      ['name', 'nameEn', 'nameGu', 'code'] // searchable fields
+    );
   }
 
   async getBySectorId(req: Request, res: Response): Promise<void> {
@@ -37,5 +42,9 @@ export class SubSectorController extends BaseController<SubSectorEntity> {
     } catch (error: any) {
       sendErrorResponse(res, error.message || 'Error fetching subSectors', 400);
     }
+  }
+
+  async listWithQuery(req: Request, res: Response): Promise<void> {
+    await this.getAllWithQuery(req, res);
   }
 }

@@ -10,9 +10,13 @@ import { PS1Schema } from '../../../api/models/schemas/forms/ps1.schema';;
 
 export class PS1Controller extends BaseController<PS1Entity> {
     constructor(private ps1Service: PS1Service) {
-        super(ps1Service, PS1Schema);
+        super(
+            ps1Service,
+            PS1Schema,
+            ['financialYear', 'fund', 'mpmla', 'sector', 'subSector', 'district', 'taluka', 'village', 'nagarpalika', 'demandOfficer', 'assignPSTo', 'implementationOfficer'], // relations
+            ['schemeName', 'implementationName', 'description'] // searchable fields
+        );
     }
-
 
     // Override the list endpoint to map sector to string value
     async list(req: Request, res: Response): Promise<void> {
@@ -37,5 +41,9 @@ export class PS1Controller extends BaseController<PS1Entity> {
         } catch (error: any) {
             sendErrorResponse(res, error.message || 'Error fetching ps1s', 400);
         }
+    }
+
+    async listWithQuery(req: Request, res: Response): Promise<void> {
+        await this.getAllWithQuery(req, res);
     }
 }

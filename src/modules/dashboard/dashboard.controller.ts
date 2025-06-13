@@ -16,7 +16,12 @@ function isValidDashboardColumn(column: string): column is typeof ALLOWED_DASHBO
 
 export class PlanningStage1Controller extends BaseController<PlanningStage1Entity> {
   constructor(private readonly planningStage1Service: PlanningStage1Service) {
-    super(planningStage1Service, PlanningStage1Schema);
+    super(
+      planningStage1Service,
+      PlanningStage1Schema,
+      ['fund', 'taluka', 'sector'], // relations
+      ['name', 'description'] // searchable fields
+    );
   }
 
   public getPS1ByFy = async (req: Request, res: Response, next: NextFunction): Promise<void> => { // Explicitly Promise<void>
@@ -133,5 +138,9 @@ export class PlanningStage1Controller extends BaseController<PlanningStage1Entit
     } catch (error) {
       next(error);
     }
+  }
+
+  async listWithQuery(req: Request, res: Response): Promise<void> {
+    await this.getAllWithQuery(req, res);
   }
 }

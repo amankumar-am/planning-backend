@@ -36,4 +36,6 @@ router.get('/by-financial-year/:fyId', async (req, res) => {
     }
 });
 
+router.get('/query', controller.listWithQuery.bind(controller));
+
 export default router;

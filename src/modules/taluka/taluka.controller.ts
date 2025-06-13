@@ -10,7 +10,12 @@ import { talukaSchema } from '../../api/models/schemas/taluka.schema';
 export class TalukaController extends BaseController<TalukaEntity> {
 
   constructor(private readonly talukaService: TalukaService) {
-    super(talukaService, talukaSchema);
+    super(
+      talukaService,
+      talukaSchema,
+      ['district', 'prant'], // relations
+      ['name', 'nameEn', 'nameGu', 'code'] // searchable fields
+    );
   }
 
   async getByDistrictId(req: Request, res: Response): Promise<void> {
@@ -24,7 +29,7 @@ export class TalukaController extends BaseController<TalukaEntity> {
       const mappedTalukas = talukas.map(taluka => ({
         ...taluka,
         district: taluka.district?.nameEn || taluka.district?.name || '',
-        prant: taluka.prant?.toString() || '',
+        prant: taluka.prant?.nameEn || taluka.prant?.name || '',
       }));
       sendListResponse(res, this.schema, mappedTalukas);
     } catch (error: any) {
@@ -59,5 +64,9 @@ export class TalukaController extends BaseController<TalukaEntity> {
     } catch (error: any) {
       sendErrorResponse(res, error.message || 'Error fetching talukas', 400);
     }
+  }
+
+  async listWithQuery(req: Request, res: Response): Promise<void> {
+    await this.getAllWithQuery(req, res);
   }
 }

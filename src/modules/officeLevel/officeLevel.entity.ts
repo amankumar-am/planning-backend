@@ -12,9 +12,6 @@ export class OfficeLevelEntity extends BaseEntity {
     code!: string;
 
     @Column({ name: 'MOL_NameEn', length: 30 })
-    name!: string;
-
-    @Column({ name: 'MOL_NameEn', length: 30 })
     nameEn!: string;
 
     @Column({ name: 'MOL_NameGu', length: 30 })

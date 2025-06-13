@@ -11,6 +11,8 @@ const controller = new FundController(service);
 
 const router = Router();
 
+router.get('/', controller.list.bind(controller));
+router.get('/query', controller.listWithQuery.bind(controller));
 router.get('/dashboard/global/total-funds', controller.getTotalFunds.bind(controller));
 // Add more explicit routes as needed
 

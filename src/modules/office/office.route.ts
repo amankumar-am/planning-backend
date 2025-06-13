@@ -12,5 +12,6 @@ const controller = new OfficeController(service);
 const router = Router();
 
 router.get('/', controller.list.bind(controller));
+router.get('/query', controller.listWithQuery.bind(controller));
 
 export default router;

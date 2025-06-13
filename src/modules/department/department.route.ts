@@ -12,6 +12,7 @@ const controller = new DepartmentController(service);
 const router = Router();
 
 router.get('/', controller.list.bind(controller));
+router.get('/query', controller.listWithQuery.bind(controller));
 // Add more explicit routes as needed
 
 export default router;

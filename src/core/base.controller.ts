@@ -4,6 +4,7 @@ import { Request, Response } from 'express';
 import { ObjectLiteral } from 'typeorm';
 import { BaseService } from './base.service';
 import { SchemaConfig } from '../api/models/base.dto';
+import { BaseQueryDto } from './base.type';
 import {
     sendListResponse,
     sendEntityResponse,
@@ -13,12 +14,32 @@ import {
 } from './response.util';
 
 export abstract class BaseController<T extends ObjectLiteral> {
-    constructor(protected service: BaseService<T>, protected schema: SchemaConfig) { }
+    constructor(
+        protected service: BaseService<T>,
+        protected schema: SchemaConfig,
+        protected relations: string[] = [],
+        protected searchableFields: string[] = []
+    ) { }
 
     async getAll(req: Request, res: Response): Promise<void> {
         try {
             const entities = await this.service.getAll();
             sendListResponse(res, this.schema, entities);
+        } catch (error) {
+            sendErrorResponse(res, 'Error fetching data', 500);
+        }
+    }
+
+    async getAllWithQuery(req: Request, res: Response): Promise<void> {
+        try {
+            const query = this.parseQueryParams(req.query);
+            const result = await this.service.findWithQuery(query, this.relations, this.searchableFields);
+            res.json({
+                success: true,
+                message: 'Data fetched successfully',
+                data: result.data,
+                pagination: result.pagination
+            });
         } catch (error) {
             sendErrorResponse(res, 'Error fetching data', 500);
         }
@@ -69,5 +90,33 @@ export abstract class BaseController<T extends ObjectLiteral> {
         } catch (error) {
             sendErrorResponse(res, 'Error deleting data', 400);
         }
+    }
+
+    private parseQueryParams(query: any): BaseQueryDto {
+        const parsedQuery: BaseQueryDto = {};
+
+        // Parse pagination
+        if (query.page) parsedQuery.page = parseInt(query.page) || 1;
+        if (query.limit) parsedQuery.limit = parseInt(query.limit) || 10;
+
+        // Parse sorting
+        if (query.sortBy) parsedQuery.sortBy = query.sortBy;
+        if (query.sortOrder) parsedQuery.sortOrder = query.sortOrder;
+
+        // Parse search
+        if (query.search) parsedQuery.search = query.search;
+
+        // Parse filters
+        if (query.filters) {
+            try {
+                parsedQuery.filters = typeof query.filters === 'string'
+                    ? JSON.parse(query.filters)
+                    : query.filters;
+            } catch (error) {
+                parsedQuery.filters = [];
+            }
+        }
+
+        return parsedQuery;
     }
 }

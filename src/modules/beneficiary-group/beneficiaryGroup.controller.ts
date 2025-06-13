@@ -9,7 +9,12 @@ import { sendListResponse, sendErrorResponse } from '../../core/response.util';
 
 export class BeneficiaryGroupController extends BaseController<BeneficiaryGroup> {
     constructor(bgService: BeneficiaryGroupService) {
-        super(bgService, beneficiaryGroupSchema);
+        super(
+            bgService,
+            beneficiaryGroupSchema,
+            [], // no relations
+            ['name', 'nameEn', 'nameGu', 'code'] // searchable fields
+        );
     }
 
     async list(req: Request, res: Response): Promise<void> {
@@ -19,5 +24,9 @@ export class BeneficiaryGroupController extends BaseController<BeneficiaryGroup>
         } catch (error: any) {
             sendErrorResponse(res, error.message || 'Error fetching beneficiary groups', 400);
         }
+    }
+
+    async listWithQuery(req: Request, res: Response): Promise<void> {
+        await this.getAllWithQuery(req, res);
     }
 }

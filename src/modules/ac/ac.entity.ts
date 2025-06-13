@@ -15,9 +15,6 @@ export class ACEntity extends BaseEntity {
   @Column({ name: 'MAC_Name_En', length: 100 })
   nameEn!: string;
 
-  @Column({ name: 'MAC_Name_En', length: 100 })
-  name!: string;
-
   @Column({ name: 'MAC_Name_Gu', length: 100 })
   nameGu!: string;
 

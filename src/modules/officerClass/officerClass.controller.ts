@@ -10,7 +10,12 @@ import { Request, Response } from 'express';
 
 export class OfficerClassController extends BaseController<OfficerClassEntity> {
   constructor(private readonly officerClassService: OfficerClassService) {
-    super(officerClassService, officerClassSchema);
+    super(
+      officerClassService,
+      officerClassSchema,
+      [], // no relations
+      ['name', 'nameEn', 'nameGu', 'code'] // searchable fields
+    );
   }
 
   async list(req: Request, res: Response): Promise<void> {
@@ -21,5 +26,9 @@ export class OfficerClassController extends BaseController<OfficerClassEntity> {
     } catch (error: any) {
       sendErrorResponse(res, error.message || 'Error fetching Office Levels', 400);
     }
+  }
+
+  async listWithQuery(req: Request, res: Response): Promise<void> {
+    await this.getAllWithQuery(req, res);
   }
 }

@@ -2,6 +2,7 @@
 
 import { DeepPartial, ObjectLiteral } from 'typeorm';
 import { BaseRepository } from './base.repository';
+import { BaseQueryDto, PaginatedResult } from './base.type';
 
 export abstract class BaseService<T extends ObjectLiteral> {
     constructor(protected repository: BaseRepository<T>) { }
@@ -24,5 +25,13 @@ export abstract class BaseService<T extends ObjectLiteral> {
 
     async delete(id: number): Promise<void> {
         return this.repository.delete(id);
+    }
+
+    async findWithQuery(
+        query: BaseQueryDto,
+        relations: string[] = [],
+        searchableFields: string[] = []
+    ): Promise<PaginatedResult<T>> {
+        return this.repository.findWithQuery(query, relations, searchableFields);
     }
 }

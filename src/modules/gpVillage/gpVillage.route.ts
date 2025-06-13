@@ -1,4 +1,4 @@
-// src/modules/gpVillage/gpvillage.route.ts
+// src/modules/gpVillage/gpVillage.route.ts
 
 import { Router } from 'express';
 import { GpVillageController } from './gpVillage.controller';
@@ -11,6 +11,8 @@ const controller = new GpVillageController(service);
 
 const router = Router();
 
+router.get('/', controller.list.bind(controller));
+router.get('/query', controller.listWithQuery.bind(controller));
 router.get('/district/:districtId', controller.getByDistrictId.bind(controller));
 router.get('/taluka/:talukaId', controller.getByTalukaId.bind(controller));
 

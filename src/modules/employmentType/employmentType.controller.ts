@@ -10,7 +10,12 @@ import { Request, Response } from 'express';
 
 export class EmploymentTypeController extends BaseController<EmploymentTypeEntity> {
   constructor(private readonly employmentTypeService: EmploymentTypeService) {
-    super(employmentTypeService, employmentTypeSchema);
+    super(
+      employmentTypeService,
+      employmentTypeSchema,
+      [], // no relations
+      ['name', 'nameEn', 'nameGu', 'code'] // searchable fields
+    );
   }
 
   async list(req: Request, res: Response): Promise<void> {
@@ -21,5 +26,9 @@ export class EmploymentTypeController extends BaseController<EmploymentTypeEntit
     } catch (error: any) {
       sendErrorResponse(res, error.message || 'Error fetching Employment Types', 400);
     }
+  }
+
+  async listWithQuery(req: Request, res: Response): Promise<void> {
+    await this.getAllWithQuery(req, res);
   }
 }

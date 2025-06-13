@@ -11,7 +11,12 @@ import { Request, Response } from 'express';
 
 export class FinancialYearController extends BaseController<FinancialYearEntity> {
     constructor(financialYearService: FinancialYearService) {
-        super(financialYearService, financialYearSchema);
+        super(
+            financialYearService,
+            financialYearSchema,
+            [], // no relations
+            ['name', 'nameEn', 'nameGu', 'code', 'startDate', 'endDate'] // searchable fields
+        );
     }
 
     async list(req: Request, res: Response): Promise<void> {
@@ -21,5 +26,9 @@ export class FinancialYearController extends BaseController<FinancialYearEntity>
         } catch (error: any) {
             sendErrorResponse(res, error.message || 'Error fetching financial years', 400);
         }
+    }
+
+    async listWithQuery(req: Request, res: Response): Promise<void> {
+        await this.getAllWithQuery(req, res);
     }
 }

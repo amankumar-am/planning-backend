@@ -11,7 +11,12 @@ import { GpVillageService } from './gpVillage.service';
 
 export class GpVillageController extends BaseController<GpVillageEntity> {
   constructor(private readonly gpVillageService: GpVillageService) {
-    super(gpVillageService, gpVillageSchema);
+    super(
+      gpVillageService,
+      gpVillageSchema,
+      ['district', 'taluka'], // relations
+      ['name', 'nameEn', 'nameGu', 'code'] // searchable fields
+    );
   }
 
   async getByDistrictId(req: Request, res: Response): Promise<void> {
@@ -38,5 +43,18 @@ export class GpVillageController extends BaseController<GpVillageEntity> {
     } catch (error: any) {
       sendErrorResponse(res, error.message || 'Error fetching villages', 400);
     }
+  }
+
+  async list(req: Request, res: Response): Promise<void> {
+    try {
+      const items = await this.service.getAll();
+      sendListResponse(res, this.schema, items);
+    } catch (error: any) {
+      sendErrorResponse(res, error.message || 'Error fetching villages', 400);
+    }
+  }
+
+  async listWithQuery(req: Request, res: Response): Promise<void> {
+    await this.getAllWithQuery(req, res);
   }
 }

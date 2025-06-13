@@ -10,7 +10,12 @@ import { Request, Response } from 'express';
 
 export class OfficeLevelController extends BaseController<OfficeLevelEntity> {
   constructor(private readonly officeLevelService: OfficeLevelService) {
-    super(officeLevelService, officeLevelSchema);
+    super(
+      officeLevelService,
+      officeLevelSchema,
+      [], // no relations
+      ['name', 'nameEn', 'nameGu', 'code'] // searchable fields
+    );
   }
 
   async list(req: Request, res: Response): Promise<void> {
@@ -21,5 +26,9 @@ export class OfficeLevelController extends BaseController<OfficeLevelEntity> {
     } catch (error: any) {
       sendErrorResponse(res, error.message || 'Error fetching Office Levels', 400);
     }
+  }
+
+  async listWithQuery(req: Request, res: Response): Promise<void> {
+    await this.getAllWithQuery(req, res);
   }
 }

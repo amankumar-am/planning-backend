@@ -31,5 +31,5 @@ export const UserSchema: SchemaConfig = {
         { field: 'passwordResetExpires', label: 'Password Reset Expires', type: 'date' },
         ...commonSchemaFields
     ],
-    defaultVisibleColumns: ['MUsr_Username', 'MUsr_EmailId', 'MUsr_Mobile', 'MUsr_FirstName', 'MUsr_LastName'],
+    defaultVisibleColumns: ['username', 'firstName', 'lastName', 'department', 'office', 'designation'],
 };

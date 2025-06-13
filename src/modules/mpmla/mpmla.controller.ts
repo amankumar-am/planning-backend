@@ -10,7 +10,12 @@ import { mpmlaSchema } from '../../api/models/schemas/mpmla.schema';
 export class MpmlaController extends BaseController<MpmlaEntity> {
 
   constructor(private readonly mpmlaService: MpmlaService) {
-    super(mpmlaService, mpmlaSchema);
+    super(
+      mpmlaService,
+      mpmlaSchema,
+      ['legislativeConstituency', 'parliamentaryConstituency'], // relations
+      ['name', 'nameEn', 'nameGu', 'code'] // searchable fields
+    );
   }
 
   // async getByRelatedId(req: Request, res: Response): Promise<void> {
@@ -59,5 +64,9 @@ export class MpmlaController extends BaseController<MpmlaEntity> {
     } catch (error: any) {
       sendErrorResponse(res, error.message || 'Error fetching mpmlas', 400);
     }
+  }
+
+  async listWithQuery(req: Request, res: Response): Promise<void> {
+    await this.getAllWithQuery(req, res);
   }
 }

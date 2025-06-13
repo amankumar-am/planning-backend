@@ -12,6 +12,7 @@ const controller = new ACController(service);
 const router = Router();
 
 router.get('/', controller.list.bind(controller));
+router.get('/query', controller.listWithQuery.bind(controller));
 router.get('/district/:districtId', controller.getByDistrictId.bind(controller));
 router.get('/dashboard/global/district/:districtId/total-acs', controller.getTotalACs.bind(controller));
 

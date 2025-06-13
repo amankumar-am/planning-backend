@@ -11,6 +11,8 @@ const controller = new SectorController(service);
 
 const router = Router();
 
+router.get('/', controller.list.bind(controller));
+router.get('/query', controller.listWithQuery.bind(controller));
 router.get('/dashboard/global/total-sectors', controller.getTotalSectors.bind(controller));
 // Add more explicit routes as needed
 

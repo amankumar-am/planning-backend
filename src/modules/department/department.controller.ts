@@ -10,7 +10,12 @@ import { departmentSchema } from '../../api/models/schemas/department.schema';
 export class DepartmentController extends BaseController<DepartmentEntity> {
 
   constructor(private readonly departmentService: DepartmentService) {
-    super(departmentService, departmentSchema);
+    super(
+      departmentService,
+      departmentSchema,
+      [], // no relations for department
+      ['name', 'nameEn', 'nameGu', 'code'] // searchable fields
+    );
   }
 
   async list(req: Request, res: Response): Promise<void> {
@@ -22,6 +27,9 @@ export class DepartmentController extends BaseController<DepartmentEntity> {
     }
   }
 
+  async listWithQuery(req: Request, res: Response): Promise<void> {
+    await this.getAllWithQuery(req, res);
+  }
 
   async getTotalDepartments(req: Request, res: Response): Promise<void> {
     try {

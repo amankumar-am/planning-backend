@@ -9,7 +9,12 @@ import { sendErrorResponse, sendListResponse } from '../../core/response.util';
 
 export class AuthController extends BaseController<UserEntity> {
     constructor(private readonly authService: AuthService) {
-        super(authService, UserSchema);
+        super(
+            authService,
+            UserSchema,
+            ['department', 'office', 'designation', 'employmentType', 'officerClass'], // relations
+            ['username', 'emailId', 'firstName', 'lastName'] // searchable fields
+        );
     }
 
     async login(req: Request, res: Response, next: NextFunction): Promise<void> {
@@ -77,5 +82,10 @@ export class AuthController extends BaseController<UserEntity> {
         } catch (error: any) {
             sendErrorResponse(res, error.message || 'Error fetching Employment Types', 400);
         }
+    }
+
+    // New enhanced list method with filtering and sorting
+    async listWithQuery(req: Request, res: Response): Promise<void> {
+        await this.getAllWithQuery(req, res);
     }
 }
