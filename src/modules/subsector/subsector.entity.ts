@@ -10,9 +10,6 @@ export class SubSectorEntity extends BaseEntity {
   id!: number;
 
   @Column({ name: 'MSS_Name_En', length: 100 })
-  name!: string;
-
-  @Column({ name: 'MSS_Name_En', length: 100 })
   nameEn!: string;
 
   @Column({ name: 'MSS_Name_Gu', length: 100, nullable: true })

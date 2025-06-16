@@ -28,8 +28,8 @@ export class TalukaController extends BaseController<TalukaEntity> {
       // Map district to string and prant to string
       const mappedTalukas = talukas.map(taluka => ({
         ...taluka,
-        district: taluka.district?.nameEn || taluka.district?.name || '',
-        prant: taluka.prant?.nameEn || taluka.prant?.name || '',
+        district: taluka.district?.nameEn || '',
+        prant: taluka.prant?.nameEn || '',
       }));
       sendListResponse(res, this.schema, mappedTalukas);
     } catch (error: any) {

@@ -14,9 +14,6 @@ export class FundEntity extends BaseEntity {
     @Column({ name: 'MF_FundingSource_En', length: 50 })
     fundingSource_En!: string;
 
-    @Column({ name: 'MF_FundingSource_En', length: 50 })
-    name!: string;
-
     @Column({ name: 'MF_FundingSource_Gu', length: 100, nullable: true })
     fundingSource_Gu?: string;
 

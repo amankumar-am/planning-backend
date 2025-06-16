@@ -28,7 +28,7 @@ export class DesignationController extends BaseController<DesignationEntity> {
       // Map department to string and prant to string
       const mappedDesignations = designations.map(designation => ({
         ...designation,
-        department: designation.department?.nameEn || designation.department?.name || ''
+        department: designation.department?.nameEn || ''
       }));
       sendListResponse(res, this.schema, mappedDesignations);
     } catch (error: any) {

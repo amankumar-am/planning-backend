@@ -25,9 +25,6 @@ export class OfficeEntity extends BaseEntity {
     @Column({ name: 'MOff_Name_En', length: 100 })
     nameEn!: string;
 
-    @Column({ name: 'MOff_Name_En', length: 100 })
-    name!: string;
-
     @Column({ name: 'MOff_Name_Gu', length: 100 })
     nameGu!: string;
 

@@ -21,7 +21,4 @@ export class DistrictEntity extends BaseEntity {
   @ManyToOne(() => StateEntity, { onUpdate: 'CASCADE', onDelete: 'RESTRICT' })
   @JoinColumn({ name: 'MD_State', referencedColumnName: 'id' })
   state!: StateEntity;
-
-  @Column({ name: 'MD_Name_En', length: 100 })
-  name!: string;
 }

@@ -16,9 +16,6 @@ export class TalukaEntity extends BaseEntity {
   @Column({ name: 'MT_Name_En', length: 100 })
   nameEn!: string;
 
-  @Column({ name: 'MT_Name_En', length: 100 })
-  name!: string;
-
   @Column({ name: 'MT_Name_Gu', length: 100 })
   nameGu!: string;
 

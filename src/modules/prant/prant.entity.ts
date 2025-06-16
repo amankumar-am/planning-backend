@@ -12,9 +12,6 @@ export class PrantEntity extends BaseEntity {
     code!: string;
 
     @Column({ name: 'MP_Name_En', length: 100 })
-    name!: string;
-
-    @Column({ name: 'MP_Name_En', length: 100 })
     nameEn!: string;
 
     @Column({ name: 'MP_Name_Gu', length: 100 })
