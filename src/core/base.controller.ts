@@ -55,7 +55,7 @@ export abstract class BaseController<T extends ObjectLiteral> {
     async getById(req: Request, res: Response): Promise<void> {
         try {
             const id = parseInt(req.params.id);
-            const entity = await this.service.getById(id);
+            const entity = await this.service.getById(id, this.relations);
             if (entity) {
                 sendEntityResponse(res, entity);
             } else {
@@ -78,7 +78,7 @@ export abstract class BaseController<T extends ObjectLiteral> {
     async update(req: Request, res: Response): Promise<void> {
         try {
             const id = parseInt(req.params.id);
-            const entity = await this.service.update(id, req.body);
+            const entity = await this.service.update(id, req.body, this.relations);
             if (entity) {
                 sendEntityResponse(res, entity);
             } else {

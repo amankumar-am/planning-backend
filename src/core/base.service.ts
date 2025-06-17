@@ -11,16 +11,16 @@ export abstract class BaseService<T extends ObjectLiteral> {
         return this.repository.findAll();
     }
 
-    async getById(id: number): Promise<T | null> {
-        return this.repository.findById(id);
+    async getById(id: number, relations: string[] = []): Promise<T | null> {
+        return this.repository.findById(id, relations);
     }
 
     async create(data: DeepPartial<T>): Promise<T> {
         return this.repository.create(data);
     }
 
-    async update(id: number, data: DeepPartial<T>): Promise<T | null> {
-        return this.repository.update(id, data);
+    async update(id: number, data: DeepPartial<T>, relations: string[] = []): Promise<T | null> {
+        return this.repository.update(id, data, relations);
     }
 
     async delete(id: number): Promise<void> {

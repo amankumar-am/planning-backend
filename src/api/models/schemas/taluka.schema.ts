@@ -10,7 +10,6 @@ export const talukaSchema: SchemaConfig = {
     { field: 'id', label: 'ID', type: 'number', isPrimary: true },
     { field: 'eDharaCode', label: 'E-Dhara Code', type: 'number' },
     { field: 'nameEn', label: 'Name (English)', type: 'string' },
-    { field: 'name', label: 'Name (English)', type: 'string' },
     { field: 'nameGu', label: 'Name (Gujarati)', type: 'string' },
     { field: 'district', label: 'District', type: 'number' },
     { field: 'prant', label: 'Prant', type: 'number' },
