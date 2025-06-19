@@ -62,4 +62,8 @@ export class GpVillageService extends BaseService<GpVillageEntity> {
     }
     return villages;
   }
+
+  async findAllWithRelations(): Promise<GpVillageEntity[]> {
+    return this.gpVillageRepository.findAllWithRelations(['district', 'taluka']);
+  }
 }

@@ -22,7 +22,9 @@ import empTypeRoute from './modules/employmentType/employmentType.route';
 import mpmlaRoute from './modules/mpmla/mpmla.route';
 import officeLevelRoute from './modules/officeLevel/officeLevel.route';
 import officerClassRoute from './modules/officerClass/officerClass.route';
-import ps1Route from './modules/forms/ps1/ps1.route'
+import ps1Route from './modules/forms/ps1/ps1.route';
+import roleRoute from './modules/role/role.route';
+import groupRoute from './modules/group/group.route';
 
 const apiRouter = Router();
 
@@ -47,6 +49,8 @@ apiRouter.use('/offLevels', officeLevelRoute);
 apiRouter.use('/offClasses', officerClassRoute);
 apiRouter.use('/ps1', planningstage1Route);
 apiRouter.use('/ps1Route', ps1Route);
+apiRouter.use('/roles', roleRoute);
+apiRouter.use('/groups', groupRoute);
 
 
 export default apiRouter;

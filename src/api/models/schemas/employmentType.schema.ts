@@ -8,8 +8,9 @@ export const employmentTypeSchema: SchemaConfig = {
     tableName: 'Master_EmploymentType',
     columns: [
         { field: 'id', label: 'ID', type: 'number', isPrimary: true },
-        { field: 'name', label: 'Name', type: 'string' },
+        { field: 'nameEn', label: 'Name (English)', type: 'string' },
+        { field: 'nameGu', label: 'Name (Gujarati)', type: 'string' },
         ...commonSchemaFields,
     ],
-    defaultVisibleColumns: ['code', 'name'],
+    defaultVisibleColumns: ['code', 'nameEn', 'nameGu'],
 };

@@ -1,4 +1,4 @@
-// src/modules/gpvillage/gpvillage.type.ts
+// src/modules/gpVillage/gpVillage.type.ts
 
 import { IsString, IsOptional, IsBoolean, IsDate, IsNumber } from 'class-validator';
 import { BaseDtoFields } from '../../core/base.type';
@@ -16,9 +16,9 @@ export class CreateGpVillageDto extends BaseDtoFields {
   @IsString()
   nameGu?: string;
 
-  @IsString()
-  @IsOptional()
-  villagesIncluded?: string;
+  // @IsString()
+  // @IsOptional()
+  // villagesIncluded?: string;
 
   @IsString()
   @IsOptional()
@@ -44,9 +44,9 @@ export class UpdateGpVillageDto implements Partial<CreateGpVillageDto> {
   @IsString()
   nameGu?: string;
 
-  @IsString()
-  @IsOptional()
-  villagesIncluded?: string;
+  // @IsString()
+  // @IsOptional()
+  // villagesIncluded?: string;
 
   @IsString()
   @IsOptional()

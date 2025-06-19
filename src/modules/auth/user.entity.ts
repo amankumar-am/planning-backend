@@ -6,7 +6,9 @@ import { OfficeEntity } from '../office/office.entity';
 import { DesignationEntity } from '../designation/designation.entity';
 import { EmploymentTypeEntity } from '../employmentType/employmentType.entity';
 import { OfficerClassEntity } from '../officerClass/officerClass.entity';
-import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, JoinColumn } from 'typeorm';
+import { RoleEntity } from '../role/role.entity';
+import { GroupEntity } from '../group/group.entity';
+import { Entity, Column, PrimaryGeneratedColumn, ManyToOne, ManyToMany, JoinColumn } from 'typeorm';
 
 @Entity('Master_UserProfile')
 export class UserEntity extends BaseEntity {
@@ -83,4 +85,12 @@ export class UserEntity extends BaseEntity {
 
     @Column({ name: 'MUsr_PasswordResetExpires', type: 'timestamp', nullable: true })
     passwordResetExpires?: Date;
+
+    // Many-to-many relationship with Roles (direct role assignments)
+    @ManyToMany(() => RoleEntity, role => role.users)
+    roles?: RoleEntity[];
+
+    // Many-to-many relationship with Groups (user group memberships)
+    @ManyToMany(() => GroupEntity, group => group.users)
+    groups?: GroupEntity[];
 }

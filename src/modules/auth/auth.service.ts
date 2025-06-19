@@ -13,8 +13,13 @@ export class AuthService extends BaseService<UserEntity> {
         super(userRepository);
     }
 
-    async login(email: string, password: string): Promise<{ user: any; token: string }> {
-        const user = await this.userRepository.findByEmail(email);
+    async login(emailOrUsername: string, password: string): Promise<{ user: any; token: string }> {
+        // Try to find user by email first, then by username
+        let user = await this.userRepository.findByEmail(emailOrUsername);
+        if (!user) {
+            user = await this.userRepository.findByUsername(emailOrUsername);
+        }
+
         if (!user || !(await bcrypt.compare(password, user.password ?? ''))) {
             throw new UnauthorizedError('Invalid credentials');
         }

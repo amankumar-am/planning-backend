@@ -16,14 +16,11 @@ export class GpVillageEntity extends BaseEntity {
   @Column({ name: 'MGPV_Name_En', })
   nameEn!: string;
 
-  @Column({ name: 'MGPV_Name_En', })
-  name!: string;
-
   @Column({ name: 'MGPV_Name_Gu', length: 100, })
   nameGu?: string;
 
-  @Column({ name: 'MGPV_VillagesIncluded', length: 200, nullable: true })
-  villagesIncluded?: string;
+  // @Column({ name: 'MGPV_VillagesIncluded', length: 200, nullable: true })
+  // villagesIncluded?: string;
 
 
   @Column({ name: 'MGPV_Population(2011)', nullable: true })

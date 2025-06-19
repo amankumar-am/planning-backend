@@ -4,13 +4,19 @@ import { IsString, IsOptional, IsBoolean, IsDate } from 'class-validator';
 import { BaseDtoFields } from '../../core/base.type';
 export class CreateEmploymentTypeDto extends BaseDtoFields {
   @IsString()
-  name!: string;
+  nameEn!: string;
+
+  @IsString()
+  nameGu!: string;
 }
 
 export class UpdateEmploymentTypeDto implements Partial<CreateEmploymentTypeDto> {
 
   @IsString()
-  name!: string;
+  nameEn!: string;
+
+  @IsString()
+  nameGu!: string;
 
   @IsBoolean()
   @IsOptional()

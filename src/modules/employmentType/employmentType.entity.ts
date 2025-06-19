@@ -8,6 +8,9 @@ export class EmploymentTypeEntity extends BaseEntity {
     @PrimaryGeneratedColumn({ name: 'MEmpT_Id' })
     id!: number;
 
-    @Column({ name: 'MEmpT_Name', length: 30 })
-    name!: string;
+    @Column({ name: 'MEmpT_Name_En', length: 30 })
+    nameEn!: string;
+
+    @Column({ name: 'MEmpT_Name_Gu', length: 30 })
+    nameGu!: string;
 }

@@ -47,7 +47,7 @@ export class GpVillageController extends BaseController<GpVillageEntity> {
 
   async list(req: Request, res: Response): Promise<void> {
     try {
-      const items = await this.service.getAll();
+      const items = await this.gpVillageService.findAllWithRelations();
       sendListResponse(res, this.schema, items);
     } catch (error: any) {
       sendErrorResponse(res, error.message || 'Error fetching villages', 400);

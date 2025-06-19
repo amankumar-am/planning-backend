@@ -11,9 +11,6 @@ export class OfficerClassEntity extends BaseEntity {
     @Column({ name: 'MOffC_Code', length: 10 })
     code!: string;
 
-    @Column({ name: 'MOffC_Name_En', length: 30 })
-    name!: string;
-
     @Column({ name: 'MOffC_Name_En', length: 10 })
     nameEn!: string;
 
